@@ -42,7 +42,7 @@ BIND_DIR="/path/to/data_directory"
 singularity exec \
 	--bind /path/to/data_directory \
 	-e ${IMAGE_DIR}/ensembl-vep-20220216.simg \ 
-	./code/shell_vep_annot_germline.sh \
+	1_prep/code/shell_vep_annot_germline.sh \
 	$INPUT_VCF \
 	$OUTPUT_VCF \
 	$DIR_CACHE \
