@@ -9,7 +9,7 @@ VAL_INPUT_FORMAT=$WDIR/output/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_
 
 GENCODE=/path/to/wgEncodeGencodeBasicV39.bed.gz
 MANE=/path/to/MANE.GRCh38.v1.0.ensembl_genomic.gff.transcript_tag.json
-VCF=/path/to/phg000830.v1.GTEx_WGS.genotype-calls-vcf.c1/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.vcf.gz
+VCF=/path/to/vcf/input.vcf.gz
 
 
 # define_sj
