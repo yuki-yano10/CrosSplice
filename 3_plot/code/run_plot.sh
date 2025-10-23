@@ -6,6 +6,7 @@ INPUT=$WDIR/output/input.validation.txt
 VCF=/path/to/vcf/input.vcf.gz
 PROCESSES=4
 PLOT_DIR=$WDIR/figure_directory
+PLOT_CODE=true    # or false
         
 mkdir -p ${PLOT_DIR}/tsv
-qsub -l lmem,s_vmem=170G -pe def_slot 4 -sync y ./code/plot_figure.sh ${INPUT} ${PLOT_DIR} TRUE
+qsub -l lmem,s_vmem=170G -pe def_slot 4 -sync y ./code/plot_figure.sh ${INPUT} ${PLOT_DIR} ${PLOT_CODE}
