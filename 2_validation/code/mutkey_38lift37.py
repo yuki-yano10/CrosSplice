@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """
-Created on Dec 2020
-
-@author: naokoiida
-
 chain = "hg38ToHg19.over.chain"
-
 """
 
 import gzip
