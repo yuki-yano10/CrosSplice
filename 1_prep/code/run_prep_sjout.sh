@@ -10,4 +10,4 @@ SJOUTTAB_DIR=$WDIR/SJ_out_tab
 METADATA=$WDIR/refdata/SraRunTable.txt
 OUTPUT_FILE=$SJOUTTAB_DIR/sjouttab_list.txt
 
-python3 1_prep/make_gtex_sjouttab_list.py -path_to_sjouttab $SJOUTTAB_DIR/sjouttab_file_path.txt -metadata ${METADATA} -output_file ${OUTPUT_FILE}
+python3 ./code/make_gtex_sjouttab_list.py -path_to_sjouttab $SJOUTTAB_DIR/sjouttab_file_path.txt -metadata ${METADATA} -output_file ${OUTPUT_FILE}
