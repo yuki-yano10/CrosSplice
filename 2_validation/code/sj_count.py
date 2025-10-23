@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Jun 10 08:00:07 2022
 
-@author: Naoko Iida
-"""
 
 import pysam
 import csv
