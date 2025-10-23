@@ -20,11 +20,11 @@ bcftools-1.18/bcftools filter ${INPUT_VCF37} -r ${CHR_NUM} > ${CHR_VCF_PRE}
 bgzip  -f -c ${CHR_VCF_PRE} > ${CHR_VCF}
 
 # liftOver
-python3 /code/lift37to38_for_vep.py -vcf ${CHR_VCF} -output ${CHR_VCF38_unsort} -chain ${CHAIN} -target chr${CHR_NUM}
+python3 ./code/lift37to38_for_vep.py -vcf ${CHR_VCF} -output ${CHR_VCF38_unsort} -chain ${CHAIN} -target chr${CHR_NUM}
 
 
 # tidy the data
-python3 /code/tidy_chr.py -input_file ${CHR_VCF38_unsort} -output_file ${CHR_VCF38_unsort2} -target chr${CHR_NUM}
+python3 ./code/tidy_chr.py -input_file ${CHR_VCF38_unsort} -output_file ${CHR_VCF38_unsort2} -target chr${CHR_NUM}
 
 # sort the data 
 bcftools-1.18/bcftools sort ${CHR_VCF38_unsort2} > ${CHR_VCF38}
