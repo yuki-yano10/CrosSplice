@@ -29,7 +29,7 @@ wget https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.0/MANE.GRCh38
 
 ## Preprocessing, Filtering and Generation of an input file for validation.
 
-1. Preprocessing of VCF file.
+### 1. Preprocessing of VCF file.
 
 ```
 proc_vcf.sh
@@ -41,7 +41,7 @@ proc_vcf.sh
 ```
 <br>
 
-2. Annotate variants in the VCF file using VEP.
+### 2. Annotate variants in the VCF file using VEP.
 
 ```
 singularity_vep_annot_germline.sh
@@ -49,7 +49,7 @@ singularity_vep_annot_germline.sh
 ```
 <br>
 
-3. Filtering
+### 3. Filtering
 
 Filter down to only SNVs with SpliceAI DS_AG/DS_DG ≥ 0.1, and gnomAD AF ≤ 0.01. 
 
@@ -59,12 +59,13 @@ python vep_filter_spliceai_gnomad.py
 
 <br>
 
-4. Define Hijacked SJ and Primary novel SJ, and Create an input file.
+### 4. Define Hijacked SJ and Primary novel SJ, and Create an input file.
 
-From the remaining SNVs, hijacked SJ and primary SJ are difined for each variant (SSCV candidate).  
-Then, create an input file in the following format, using the script below.
+From the remaining variants, **hijacked SJ** and **primary SJ** are difined for each variant (SSCV candidate).  
+Then, create an input file (*.merge.txt) in the following format, using the script below.
 
 <br>
+
 Format
 
 ```
@@ -78,6 +79,7 @@ Format
 8. SpliceAI_score
 ```
 <br>
+
 Script
 
 ```
@@ -89,14 +91,33 @@ run_define.sh
 
 ## Validation
 
+SJ.out.tab files are parsed to count the number of supporting reads for the hijacked SJ **(#hijacked_SJ)** and primary novel SJ **(#primary_novel_SJ)** in each sample.
+For each variant, an **alternative ratio** is calculated as follows.
+
+<br>
+depth = #hijacked_SJ + #primary_novel_SJ
+<br>
+alternative ratio = #primary_novel_SJ / (depth + 1) 
+<br>
+<br>
+
+### Script
 ```
 run_val.sh
     |-- run.sh
            |-- split_file.py
-           |-- mutkey_key sj_count.py
-
+           |-- mutkey_38lift37.py
+           |-- sj_count.py
 ```
 
-## Plot     
-                     --------  run_plot.sh  ----  
+<br>
+<br>
+
+## Calculate p-values and Plot     
+
+Calculate p-values to measure the difference in the alternative ratio between samples with and without the variant using a one-sided Wilcoxon rank-sum test.  
+Lastly, integrate the p-values of each tissue into a single combined p-value using Fisher’s method. 
+
+```
+run_plot.sh  ----  
                                                             plot_figure.sh
