@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@author: Naoko Iida
 
-input
 
-"""
 import csv
 import gzip
 import pysam
