@@ -3,7 +3,7 @@
     
 import gzip
 
-working_directory = "/path/to/myproject" 
+working_directory = "/path/to/my/project" 
 output_file = working_directory + "/post_filter/input.all.gnomad001.spliceaiG01.txt"
 
 with open(output_file, "w") as hout:
