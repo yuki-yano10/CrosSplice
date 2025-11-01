@@ -1,7 +1,26 @@
 # CrosSplice
-This repository contains all scripts for running CrosSplice.
+## Introduction
+**CrosSplice** is a pipeline to identify spilice-site creating variants (SSCVs) from cross-tissue transcriptome data.  
+CrosSplice uniquely captures rare and tissue-specific SSCVs beyond the reach of conventional approaches, owing to its distinctive design:
+1. **Integration of sQTL approaches and machine learning-based methods**, by pinpointing candidate SSCVs with their associated splicing junctions predicted by SpliceAI, and reinforcing these predictions through statistical association testing.
+2. **Leveraging cross-tissue transcriptome data** to aggregate splicing signals across multiple tissues.
+<br>
+You can apply CrosSplice to your own WGS and corresponding RNA-seq data.
+
 <br>
 <br>
+
+## Dependency
+### Software  
+
+bcftools  
+tabix  
+bgxip
+<br>
+
+### Python
+Python (>= 3.7)
+
 
 ## Requirement
 
