@@ -11,27 +11,45 @@ You can apply CrosSplice to your own WGS and corresponding RNA-seq data.
 <br>
 
 ## Dependency
+### Environment
+Prepare an environment where you can use **Singurality/Apptainer**, **VEP** and **qsub**.
+
 ### Software  
 
-bcftools  
-tabix  
-bgxip
+- bcftools  
+- tabix  
+- bgxip
+- VEP v105
+
 <br>
+
+Add `/path/to/software` to your PATH.
 
 ### Python
 Python (>= 3.7)
 
+### R
+R (>=4.3.0), ```tidyverse```
 
-## Requirement
+<br>
 
-1. Download RNA-seq data and perform STAR alignment to generate SJ.out.tab files.
-2. Bgzip SJ.out.tab files.
-3. Make a SJ.out.tab file list with the following code.
+
+## Preparetion
+### VEP v105
+- download a cache file for vep v105.
 ```
-bash 1_prep/run_prep_sjout.sh
+wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
 ```
-4. Download a VCF file containing genotype information.
-5. Download metadata.
+- prepare   
+
+1. 
+2. Download RNA-seq data and perform STAR alignment to generate SJ.out.tab files.
+3. Bgzip SJ.out.tab files.
+4. Make a SJ.out.tab file list with the following code.
+
+
+5. Download a VCF file containing genotype information.
+6. Download metadata.
 ```
 wget https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/?acc=PRJNA75899
 ```
