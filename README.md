@@ -20,6 +20,7 @@ Prepare an environment where you can use **Singurality/Apptainer**, **VEP** and 
 - tabix  
 - bgxip
 - VEP v105
+- liftOver (optional; required when input data are in GRCh37)
 
 <br>
 
@@ -41,8 +42,16 @@ R (>=4.3.0), ```tidyverse```
 wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
 ```
 - prepare plugin files for SpliceAI annotation from Illumina basespace (https://basespace.illumina.com/s/otSPW8hnhaZR).
-  Download the raw_hg38_snv and raw_hg38_indel file. Make sure to tabix the downloaded files.
-- prepare a plugin variant file (sites.vcf.bgz) for gnomAD annotation from https://gnomad.broadinstitute.org/downloads. In our study, we merged files of all chromosomes and   　
+  Download the ```raw_hg38_snv``` and ```raw_hg38_indel``` file, and make sure to index downloaded files using ```tabix```.
+- prepare a gnomAD variant file (```sites.vcf.bgz```) for gnomAD annotation from gnomAD Downloads (https://gnomad.broadinstitute.org/downloads).
+  In our study, we merged VCF files from all chromosomes and removed per-sample genotype information to reduce file size and improve data access efficiency.
+
+### 2. MANE file
+Download a MANE gene model file. 
+```
+wget https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.0/MANE.GRCh38.v1.0.ensembl_genomic.gtf.gz
+```   
+After downloading, convert the file into json format using 1_prep/
 
   
 
@@ -62,9 +71,7 @@ wget https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/?acc=PRJNA75899
 wget ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz
 ```
 7. Download a MANE file.
-```
-wget https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.0/MANE.GRCh38.v1.0.ensembl_genomic.gtf.gz
-```
+
 <br>
 <br>
 
