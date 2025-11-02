@@ -35,12 +35,16 @@ R (>=4.3.0), ```tidyverse```
 
 
 ## Preparetion
-### VEP v105
+### 1. VEP v105
 - download a cache file for vep v105.
 ```
 wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
 ```
-- prepare   
+- prepare plugin files for SpliceAI annotation from Illumina basespace (https://basespace.illumina.com/s/otSPW8hnhaZR).
+  Download the raw_hg38_snv and raw_hg38_indel file. Make sure to tabix the downloaded files.
+- prepare a plugin variant file (sites.vcf.bgz) for gnomAD annotation from https://gnomad.broadinstitute.org/downloads. In our study, we merged files of all chromosomes and   　
+
+  
 
 1. 
 2. Download RNA-seq data and perform STAR alignment to generate SJ.out.tab files.
