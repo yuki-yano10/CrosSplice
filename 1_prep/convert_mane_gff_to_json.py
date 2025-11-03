@@ -1,12 +1,11 @@
-#!/usr/local/package/python/3.6.5/bin/python
-#$ -S /usr/local/package/python/3.6.5/bin/python
-
+#!/usr/bin/env python3
 
 import gzip
 import json
+import sys
 
-input_gff = "/home/yano_y/refdata/MANE.GRCh38.v1.0.ensembl_genomic.gff.gz"
-output_json = "/home/yano_y/refdata/MANE.GRCh38.v1.0.ensembl_genomic.gff.transcript_tag.json"
+input_gff = sys.argv[1]
+output_json = sys.argv[2]
 
 with gzip.open(input_gff, 'rt') as hin:
     gffdata = {}
