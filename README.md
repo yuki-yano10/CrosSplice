@@ -118,21 +118,24 @@ CHAIN=/path/to/hg19ToHg38.over.chain
 Apply VEP to the preprocessed VCF files to annotate variants with information includion SpliceAI scores and gnomAD allele frequencies.
 
 ```
-$WDIR=/path/to/my/project
-INPUT_VCF="$WDIR/prepared/input.${CHR_NUM}.lift38.vcf.gz"
-OUTPUT_VCF="$WDIR/post_vep/input.${CHR_NUM}.lift38_rare-variant.vep.vcf.gz"
-DIR_CACHE="/path/to/database/vep_data"
-REFERENCE="/path/to/database/Homo_sapiens_assembly38.fasta"
-GNOMAD="/path/to/database/gnomAD_3.1.2/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
+WDIR=/path/to/my/project
+
+DIR_CACHE="/path/to/homo_sapiens_vep_105_GRCh38.tar.gz"
+FASTA="/path/to/Homo_sapiens_assembly38.fasta"
+GNOMAD="/path/to/database/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
 SPLICEAI_SNV="/path/to/spliceai_scores.raw.snv.hg38.vcf.gz"
-SPLICEAI_INDEL="/path/to/database/spliceai_scores.raw.indel.hg38.vcf.gz"
+SPLICEAI_INDEL="/path/to/spliceai_scores.raw.indel.hg38.vcf.gz"
 VEP_IMAGE="$IMAGE_DIR/ensemble-vep.sif"
 BIND_DIR="/path/to/data_directory"
 
-CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y" 
+CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
+
+mkdir -p $WDIR/post_vep
 
 
 for i in $CHR_LIST; do
+    INPUT_VCF=$WDIR/prepared/input.${CHR_NUM}.added.sorted.vcf.gz  #input file should be the output file of proc_vcf.sh script.
+    OUTPUT_VCF="$WDIR/post_vep/input.${CHR_NUM}.rare-variant.vep.vcf.gz"
     1_prep/singularity_vep_annot_germline.sh
 
 done
