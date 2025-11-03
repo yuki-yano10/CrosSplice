@@ -15,8 +15,6 @@ mkdir -p ${VCF_DIR}
 mkdir -p ${POST_DIR}
 
 
-CHAIN=/path/to/hg19ToHg38.over.chain
-
 for i in ${CHR_LIST}; do
     CHR_NUM=${i}
     CHR_VCF37_PRE=${VCF_DIR}/${VCF_STEM}.${CHR_NUM}.vcf
