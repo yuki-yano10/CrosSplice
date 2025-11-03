@@ -25,7 +25,7 @@ for i in ${CHR_LIST}; do
     bgzip  -f -c ${CHR_VCF38_PRE} > ${CHR_VCF38_PRE}.gz
 
     # add "chr" to the number of chromosome.
-    1_prep/add_chr.py ${CHR_VCF38_PRE}.gz 
+    1_prep/add_chr.py -vcf ${CHR_VCF38_PRE}.gz -output  
 
     # sort the data 
     bcftools-1.18/bcftools sort ${CHR_VCF38_UNSORT}.gz > ${CHR_VCF38_SORT}
