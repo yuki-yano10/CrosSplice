@@ -28,7 +28,7 @@ for i in ${CHR_LIST}; do
     # add "chr" prefix.
     1_prep/add_chr.py -vcf ${CHR_VCF38_PRE} -output ${CHR_VCF38_UNSORT}
 
-    # sort and compress
+    # sort and index the data
     bcftools-1.18/bcftools sort ${CHR_VCF38_UNSORT} -O z -o ${CHR_VCF38}
     tabix -p vcf ${CHR_VCF38}
 
