@@ -17,12 +17,15 @@ mkdir -p ${POST_DIR}
 
 for i in ${CHR_LIST}; do
     CHR_NUM=$i
-    CHR_VCF38_UNSORT=${VCF_DIR}/${VCF_STEM}.${CHR_NUM}.vcf
-    CHR_
+    CHR_VCF38_PRE=${VCF_DIR}/${VCF_STEM}.${CHR_NUM}.vcf
+    CHR_VCF38_UNSORT=${VCF_DIR}/${VCF_STEM}.${CHR_NUM}.added.vcf
     
     # separate into chr and bgzip.
-    bcftools-1.18/bcftools filter ${INPUT_VCF38} -r ${CHR_NUM} > ${CHR_VCF38_UNSORT}
-    bgzip  -f -c ${CHR_VCF38_UNSORT} > ${CHR_VCF38_UNSORT}.gz
+    bcftools-1.18/bcftools filter ${INPUT_VCF38} -r ${CHR_NUM} > ${CHR_VCF38_PRE}
+    bgzip  -f -c ${CHR_VCF38_PRE} > ${CHR_VCF38_PRE}.gz
+
+    # add "chr" to the number of chromosome.
+    1_prep/add_chr.py ${CHR_VCF38_PRE}.gz 
 
     # sort the data 
     bcftools-1.18/bcftools sort ${CHR_VCF38_UNSORT}.gz > ${CHR_VCF38_SORT}
