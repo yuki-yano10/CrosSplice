@@ -13,14 +13,7 @@ POST_DIR=$WDIR/prepared
 
 mkdir -p ${VCF_DIR}
 mkdir -p ${POST_DIR}
- 
-WDIR=/path/to/my/project
-INPUT_VCF37=/path/to/vcf/input.vcf.gz
-CHR_VCF37_PRE=$WDIR/vcf/input.${CHR_NUM}.vcf
-CHR_VCF=$WDIR/vcf/input.${CHR_NUM}.vcf.gz
-CHR_VCF38_unsort=$WDIR/vcf/input.${CHR_NUM}.lift38.unsorted.vcf
-CHR_VCF38_unsort2=$WDIR/vcf/input.${CHR_NUM}.lift38.unsorted2.vcf
-CHR_VCF38=$WDIR/prepared/input.${CHR_NUM}.lift38.vcf
+
 
 CHAIN=/path/to/hg19ToHg38.over.chain
 
