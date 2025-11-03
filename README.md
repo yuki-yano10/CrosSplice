@@ -100,19 +100,22 @@ INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf
 ```
 <br>
 
-(**Optional**)
+(**Optional**)  
 When the input file are in GRCh37 and liftOver is required, you can use the script below insted.
+
 ```
 WDIR=/path/to/my/project
 INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf
 CHAIN=/path/to/hg19ToHg38.over.chain
 
-```
-1_prep/proc_vcf.sh ${WDIR} ${INPUT_VCF38} ${CHAIN}
+1_prep/proc_vcf_liftover.sh ${WDIR} ${INPUT_VCF38} ${CHAIN}
 ```
 
+<br>
 
 ### 2. Annotate variants in the VCF file using VEP.
+
+
 
 ```
 1_prep/singularity_vep_annot_germline.sh
