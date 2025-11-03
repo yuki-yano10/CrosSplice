@@ -45,6 +45,7 @@ wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_
   Download the ```raw_hg38_snv``` and ```raw_hg38_indel``` file, and make sure to index downloaded files using ```tabix```.
 - prepare a gnomAD variant file (```sites.vcf.bgz```) for gnomAD annotation from gnomAD Downloads (https://gnomad.broadinstitute.org/downloads).
   In our study, we merged VCF files from all chromosomes and removed per-sample genotype information to reduce file size and improve data access efficiency.
+- prepare a reference FASTA file. In our study, we used ```Homo_sapiens_assembly38.fasta``` downloaded from the DDJB site.
   
 <br>
 
@@ -60,7 +61,9 @@ python3 1_prep/convert_mane_gff_to_json.py /path/to/MANE.GRCh38.v1.0.ensembl_gen
 ```
 
 <br>
-  
+
+### 3. Input WGS and corresponding RNA-eq data
+- download a VCF file containing genotype information.
 
 1. 
 2. Download RNA-seq data and perform STAR alignment to generate SJ.out.tab files.
@@ -68,7 +71,6 @@ python3 1_prep/convert_mane_gff_to_json.py /path/to/MANE.GRCh38.v1.0.ensembl_gen
 4. Make a SJ.out.tab file list with the following code.
 
 
-5. Download a VCF file containing genotype information.
 6. Download metadata.
 ```
 wget https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/?acc=PRJNA75899
@@ -77,7 +79,7 @@ wget https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/?acc=PRJNA75899
 ```
 wget ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz
 ```
-7. Download a MANE file.
+
 
 <br>
 <br>
