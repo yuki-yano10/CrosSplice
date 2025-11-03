@@ -54,9 +54,10 @@ wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_
 wget https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.0/MANE.GRCh38.v1.0.ensembl_genomic.gff.gz
 ```   
 - Convert the downloaded gff file into json format using 1_prep/convert_mane_gff_to_json.py.
+
 ```
 python3 1_prep/convert_mane_gff_to_json.py /path/to/MANE.GRCh38.v1.0.ensembl_genomic.gff.gz /path/to/MANE.GRCh38.v1.0.ensembl_genomic.json
-```　
+```
 
 <br>
   
