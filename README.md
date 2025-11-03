@@ -88,27 +88,27 @@ Make sure to unzip the downloaded chain file.
 
 ## Pipeline
 
-### 1. Preprocessing of VCF file.
-Preprocess the input vcf file using the following script.
+### 1. Preprocessing of a VCF file.
+Preprocess the input VCF file using the following script.
 
 
 ```
 WDIR=/path/to/my/project
-INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf
+INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
 
 1_prep/proc_vcf.sh ${WDIR} ${INPUT_VCF38}
 ```
 <br>
 
 (**Optional**)  
-When the input file are in GRCh37 and liftOver is required, you can use the script below insted.
+When the input file is aligned to GRCh37 and LiftOver is required, you can use the script below instead.
 
 ```
 WDIR=/path/to/my/project
-INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf
+INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf.gz
 CHAIN=/path/to/hg19ToHg38.over.chain
 
-1_prep/proc_vcf_liftover.sh ${WDIR} ${INPUT_VCF38} ${CHAIN}
+1_prep/proc_vcf_liftover.sh ${WDIR} ${INPUT_VCF37} ${CHAIN}
 ```
 
 <br>
