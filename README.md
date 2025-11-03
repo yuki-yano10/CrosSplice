@@ -15,10 +15,10 @@ You can apply CrosSplice to your own WGS and corresponding RNA-seq data.
 Prepare an environment where you can use **Singurality/Apptainer**, **VEP** and **qsub**.
 
 ### Software  
-
+- STAR
 - bcftools  
 - tabix  
-- bgxip
+- bgzip
 - VEP v105
 - liftOver (optional; required when input data are in GRCh37)
 
@@ -62,20 +62,22 @@ python3 1_prep/convert_mane_gff_to_json.py /path/to/MANE.GRCh38.v1.0.ensembl_gen
 
 <br>
 
-### 3. Input WGS and corresponding RNA-eq data
-- download a VCF file containing genotype information.
+### 3. Prepare the input WGS and corresponding RNA-eq data
+- download a VCF file containing genotype information obtained from WGS data (e.g., output of GATK HaplotypeCaller), along with the corresponding RNA-seq data.
+- perform STAR alignment on RNA-seq data to generate SJ.out.tab files.
+- bgzip the SJ.out.tab files.
+- prepare metadata that associates each RNA-seq sample with its corresponding WGS sample and tissue name, and create a sample list containing tisuse names in the follwoing format:
 
-1. 
-2. Download RNA-seq data and perform STAR alignment to generate SJ.out.tab files.
-3. Bgzip SJ.out.tab files.
-4. Make a SJ.out.tab file list with the following code.
-
-
-6. Download metadata.
 ```
-wget https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/?acc=PRJNA75899
+Repository_sample_id    Run     Tissue  Path
+GTEX-1117F      SRR8176157      Adipose_Tissue.Adipose-Subcutaneous     /home/yano_y/GTEx_SJ.out/GTEX_Adipose_Tissue.Adipose-Subcutaneous/GRCh38.d1.vd1_Adipose_Tissue.Adipose-Subcutaneous/GCATWorkflow-3.0.2.iravnet/star/GTEX-1117F-0226-SM-5GZZ7/GTEX-1117F-0226-SM-5GZZ7.SJ.out.tab.gz
+GTEX-1117F      SRR8176158      Muscle.Muscle-Skeletal  /home/yano_y/GTEx_SJ.out/GTEX_Muscle.Muscle-Skeletal/GRCh38.d1.vd1/GCATWorkflow-3.0.2.iravnet/star/GTEX-1117F-0426-SM-5EGHI/GTEX-1117F-0426-SM-5EGHI.SJ.out.tab.gz
+...
 ```
-6. Download a chain file for liftover between GRCh37 and GRCh38.
+<br>
+
+### Optional; liftOver (required when input data are in GRCh37) 
+- download a chain file for liftover between GRCh37 and GRCh38.
 ```
 wget ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz
 ```
@@ -84,9 +86,12 @@ wget ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chai
 <br>
 <br>
 
-## Preprocessing, Filtering and Generation of an input file for validation.
+## Pipeline
 
 ### 1. Preprocessing of VCF file.
+
+C
+
 
 ```
 1_prep/proc_vcf.sh
