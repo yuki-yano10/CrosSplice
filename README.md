@@ -47,11 +47,11 @@ wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_
   In our study, we merged VCF files from all chromosomes and removed per-sample genotype information to reduce file size and improve data access efficiency.
 
 ### 2. MANE file
-Download a MANE gene model file. 
+- download a MANE gene model file. 
 ```
 wget https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.0/MANE.GRCh38.v1.0.ensembl_genomic.gtf.gz
 ```   
-After downloading, convert the file into json format using 1_prep/
+- Convert the file into json format using 1_prep/
 
   
 
