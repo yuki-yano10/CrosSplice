@@ -81,7 +81,7 @@ GTEX-1117F      SRR8176158      Muscle.Muscle-Skeletal  /home/yano_y/GTEx_SJ.out
 ```
 wget ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz
 ```
-
+Make sure to unzip the downloaded chain file.
 
 <br>
 <br>
@@ -89,19 +89,28 @@ wget ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chai
 ## Pipeline
 
 ### 1. Preprocessing of VCF file.
-
-C
+Preprocess the input vcf file using the following script.
 
 
 ```
-1_prep/proc_vcf.sh
-            |-- separate into each chr   (bcftools filter)
-            |-- liftover                 (lift37to38_for_vep.py)
-            |-- tidy the data            (tidy_chr.py)
-            |-- sort the data            (bcftools sort)
-            |-- bgzip and tabix
+WDIR=/path/to/my/project
+INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf
+
+1_prep/proc_vcf.sh ${WDIR} ${INPUT_VCF38}
 ```
 <br>
+
+(**Optional**)
+When the input file are in GRCh37 and liftOver is required, you can use the script below insted.
+```
+WDIR=/path/to/my/project
+INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf
+CHAIN=/path/to/hg19ToHg38.over.chain
+
+```
+1_prep/proc_vcf.sh ${WDIR} ${INPUT_VCF38} ${CHAIN}
+```
+
 
 ### 2. Annotate variants in the VCF file using VEP.
 
