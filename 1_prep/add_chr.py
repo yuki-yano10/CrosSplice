@@ -7,11 +7,11 @@ import subprocess
 import os
 
 
-def add_chr(input_vcf, output_vcf):
+def add_chr(vcf, output):
 
     import gzip
     
-    with gzip.open(input_vcf, 'rt') as hin, open(output_vcf, "w") as hout:
+    with gzip.open(vcf, 'rt') as hin, open(output, "w") as hout:
 
         for line in hin:
             F = line.rstrip('\n').split('\t')
@@ -43,8 +43,8 @@ if __name__ == "__main__":
 
     parser = ArgumentParser()
 
-    parser.add_argument("-input_vcf", action="store", dest="vcf", help="vcf file", required=True)
-    parser.add_argument("-output_vcf", action="store", dest="output", help="output file", required=True)
+    parser.add_argument("-vcf", action="store", dest="vcf", help="vcf file", required=True)
+    parser.add_argument("-output", action="store", dest="output", help="output file", required=True)
     o = parser.parse_args()
 
-    add_chr(o.input_vcf, o.output_vcf)
+    add_chr(o.vcf, o.output)
