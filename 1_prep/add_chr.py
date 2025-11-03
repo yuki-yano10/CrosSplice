@@ -29,7 +29,7 @@ def add_chr(vcf, output):
                 continue
             
             chr = F[0]
-            new_chr = "chr" + chr
+            new_chr = "chr" + str(chr)
             pos = F[1]
         
             if new_chr == target:
