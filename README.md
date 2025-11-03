@@ -45,13 +45,17 @@ wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_
   Download the ```raw_hg38_snv``` and ```raw_hg38_indel``` file, and make sure to index downloaded files using ```tabix```.
 - prepare a gnomAD variant file (```sites.vcf.bgz```) for gnomAD annotation from gnomAD Downloads (https://gnomad.broadinstitute.org/downloads).
   In our study, we merged VCF files from all chromosomes and removed per-sample genotype information to reduce file size and improve data access efficiency.
+  
 
 ### 2. MANE file
-- download a MANE gene model file. 
+- download a MANE gff file. 
 ```
-wget https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.0/MANE.GRCh38.v1.0.ensembl_genomic.gtf.gz
+wget https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/release_1.0/MANE.GRCh38.v1.0.ensembl_genomic.gff.gz
 ```   
-- Convert the file into json format using 1_prep/
+- Convert the downloaded gff file into json format using 1_prep/convert_mane_gff_to_json.py.
+```
+python3 1_prep/convert_mane_gff_to_json.py /path/to/MANE.GRCh38.v1.0.ensembl_genomic.gff.gz /path/to/MANE.GRCh38.v1.0.ensembl_genomic.json
+```　
 
   
 
