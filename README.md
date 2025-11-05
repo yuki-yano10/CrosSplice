@@ -121,8 +121,8 @@ Apply VEP to the preprocessed VCF files to annotate variants with information in
 WDIR=/path/to/my/project
 
 DIR_CACHE="/path/to/homo_sapiens_vep_105_GRCh38.tar.gz"
-FASTA="/path/to/Homo_sapiens_assembly38.fasta"
-GNOMAD="/path/to/database/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
+FASTA="//Homo_sapiens_assembly38.fasta"
+GNOMAD="/path/to/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
 SPLICEAI_SNV="/path/to/spliceai_scores.raw.snv.hg38.vcf.gz"
 SPLICEAI_INDEL="/path/to/spliceai_scores.raw.indel.hg38.vcf.gz"
 VEP_IMAGE="$IMAGE_DIR/ensemble-vep.sif"
