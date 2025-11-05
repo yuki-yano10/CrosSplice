@@ -136,6 +136,7 @@ mkdir -p $WDIR/post_vep
 for i in $CHR_LIST; do
     INPUT_VCF=$WDIR/prepared/input.${CHR_NUM}.added.sorted.vcf.gz  #input file should be the output file of proc_vcf.sh script.
     OUTPUT_VCF="$WDIR/post_vep/input.${CHR_NUM}.rare-variant.vep.vcf.gz"
+
     1_prep/singularity_vep_annot_germline.sh
 
 done
