@@ -21,7 +21,7 @@ Pipeline orchestration and job scheduling were implemented mostly in **Bash**
 - tabix  
 - bgzip
 - VEP v105
-- singularity
+- Singularity/Apptainer
 - liftOver (optional; required when input data are in GRCh37)
 
 <br>
@@ -49,6 +49,14 @@ tar -zxvf homo_sapiens_vep_105_GRCh38.tar.gz
 - prepare a gnomAD variant file (```sites.vcf.bgz```) for gnomAD annotation from gnomAD Downloads (https://gnomad.broadinstitute.org/downloads).
   In our study, we merged VCF files from all chromosomes and removed per-sample genotype information to reduce file size and improve data access efficiency. Make sure to index the vcf file using ```tabix```.
 - prepare a reference FASTA file. In our study, we used ```Homo_sapiens_assembly38.fasta``` downloaded from the DDJB site.
+- build the Singularity image for vep.
+  Singularity-compatible Dockerfile is derived from the official Ensemble VEP Dockerfile (release 105: https://github.com/Ensembl/ensembl-vep/tree/release/105/docker). The only modification is that the section for creating and switching to the `vep` user was commented out, since Singularity runs as the host user and does not support user switching inside the container.
+  
+  You can build the Singularity image (```ensemble-vep.sif```) using this Dockerfile as follows:
+  ```bash
+  singularity build ensemble-vep.sif dockerfile://1_prep/ensemble-vep-singularity.Dockerfile
+  ```
+  
   
 <br>
 
