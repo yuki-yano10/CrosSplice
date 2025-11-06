@@ -52,9 +52,9 @@ tar -zxvf homo_sapiens_vep_105_GRCh38.tar.gz
 - build the Singularity image for vep.
   Singularity-compatible Dockerfile is derived from the official Ensemble VEP Dockerfile (release 105: https://github.com/Ensembl/ensembl-vep/tree/release/105/docker). The only modification is that the section for creating and switching to the `vep` user was commented out, since Singularity runs as the host user and does not support user switching inside the container.
   
-  You can build the Singularity image (```ensemble-vep.sif```) using this Dockerfile as follows:
+  You can build the Singularity image (```ensemble-vep.sif```) as follows:
   ```bash
-  singularity build ensemble-vep.sif dockerfile://1_prep/ensemble-vep-singularity.Dockerfile
+  singularity build ensemble-vep.sif dockerfile://1_prep/ensemble-vep.Dockerfile 
   ```
   
   
