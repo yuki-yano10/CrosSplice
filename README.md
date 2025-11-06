@@ -93,6 +93,7 @@ Preprocess the input VCF file using the following script.
 
 
 ```
+#!/bin/bash
 WDIR=/path/to/my/project
 INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
 
@@ -104,6 +105,7 @@ INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
 When the input file is aligned to GRCh37 and LiftOver is required, you can use the script below instead.
 
 ```
+#!/bin/bash
 WDIR=/path/to/my/project
 INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf.gz
 CHAIN=/path/to/hg19ToHg38.over.chain
@@ -118,26 +120,28 @@ CHAIN=/path/to/hg19ToHg38.over.chain
 Apply VEP to the preprocessed VCF files to annotate variants with information includion SpliceAI scores and gnomAD allele frequencies.
 
 ```
-WDIR=/path/to/my/project
+#!/bin/bash
+set -euxo pipefail
 
-DIR_CACHE="/path/to/homo_sapiens_vep_105_GRCh38.tar.gz"
-FASTA="//Homo_sapiens_assembly38.fasta"
-GNOMAD="/path/to/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
-SPLICEAI_SNV="/path/to/spliceai_scores.raw.snv.hg38.vcf.gz"
-SPLICEAI_INDEL="/path/to/spliceai_scores.raw.indel.hg38.vcf.gz"
-VEP_IMAGE="$IMAGE_DIR/ensemble-vep.sif"
-BIND_DIR="/path/to/data_directory"
+WDIR=/path/to/my/project
+BIND_DIR="/path/to/database,/path/to/my/project"
+VEP_IMAGE="1_prep/ensemble-vep.sif"
+DIR_CACHE="/path/to/database/homo_sapiens_vep_105_GRCh38"
+REF="/path/to/database/Homo_sapiens_assembly38.fasta"
+GNOMAD="/path/to/database/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
+SPLICEAI_SNV="/path/to/database/spliceai_scores.raw.snv.hg38.vcf.gz"
+SPLICEAI_INDEL="/path/to/database/spliceai_scores.raw.indel.hg38.vcf.gz"
+
 
 CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
 
 mkdir -p $WDIR/post_vep
 
-
 for i in $CHR_LIST; do
-    INPUT_VCF=$WDIR/prepared/input.${CHR_NUM}.added.sorted.vcf.gz  #input file should be the output file of proc_vcf.sh script.
-    OUTPUT_VCF="$WDIR/post_vep/input.${CHR_NUM}.rare-variant.vep.vcf.gz"
+    INPUT_VCF=$WDIR/prepared/input.${i}.added.sorted.vcf.gz  #input file should be the output file of proc_vcf.sh script.
+    OUTPUT="$WDIR/post_vep/input.${i}.rare-variant.vep.vcf.gz"
 
-    1_prep/singularity_vep_annot_germline.sh
+    1_prep/singularity_vep_annot_germline.sh ${BIND_DIR} ${VEP_IMAGE} ${INPUT_VCF} ${OUTPUT} ${DIR_CACHE} ${REF} ${GNOMAD} ${SPLICEAI_SNV} ${SPLICEAI_INDEL}  
 
 done
 ```
