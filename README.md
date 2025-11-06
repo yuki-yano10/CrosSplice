@@ -127,7 +127,7 @@ Apply VEP to the preprocessed VCF files to annotate variants with information in
 set -euxo pipefail
 
 WDIR=/path/to/my/project
-BIND_DIR="/path/to/database,/path/to/my/project"
+BIND_DIR="/path/to/database,/path/to/my/project,1_prep"
 VEP_IMAGE="1_prep/ensemble-vep.sif"
 DIR_CACHE="/path/to/database/homo_sapiens_vep_105_GRCh38"
 REF="/path/to/database/Homo_sapiens_assembly38.fasta"
