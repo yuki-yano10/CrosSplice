@@ -7,7 +7,7 @@ import os
 
 working_directory = sys.argv[1] 
 output_path = f"{working_directory}/post_filter"
-os.makedirs("output_path", exist_ok=True)
+os.makedirs(output_path, exist_ok=True)
 
 output_file = f"{output_path}/input.all.gnomad001.spliceaiG01.txt"
 
@@ -16,8 +16,8 @@ with open(output_file, "w") as hout:
     hout.write(header)
     
     for i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,"X"]:
-        input_vcf = working_directory + "/post_vep/input."+str(i)+".rare-variant.vep.vcf.gz"
-        output_vcf = working_directory + "/post_filter/input."+ str(i) +".gnomad001.spliceaiG01.vcf"
+        input_vcf = f"{working_directory}/post_vep/input.{i}.rare-variant.vep.vcf.gz"
+        output_vcf = f"{output_path}/input.{i}.gnomad001.spliceaiG01.vcf"
         
         with gzip.open(input_vcf, 'rt') as hin, open(output_vcf,"w") as vout:
            for line in hin:
