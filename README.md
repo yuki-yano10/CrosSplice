@@ -148,17 +148,19 @@ SPLICEAI_INDEL="/path/to/database/spliceai_scores.raw.indel.hg38.vcf.gz"
 
 ### 3. Filtering
 
-Filter down to only SNVs with SpliceAI DS_AG/DS_DG ≥ 0.1, and gnomAD AF ≤ 0.01. 
+Filter variants to retain only SNVs with SpliceAI DS_AG or DS_DG ≥ 0.1, and gnomAD AF ≤ 0.01. 
 
-```
-python3 1_prep/vep_filter_spliceai_gnomad.py
+```bash
+WDIR=/path/to/my/project
+
+python3 1_prep/vep_filter_spliceai_gnomad.py $WDIR
 ```
 
 <br>
 
 ### 4. Define Hijacked SJ and Primary novel SJ, and Create an input file.
 
-From the remaining variants, **hijacked SJ** and **primary SJ** are difined for each variant (SSCV candidate).  
+For each retained SNVs (SSCV candidate), **hijacked SJ** and **primary SJ** are difined for each variant.  
 Then, create an input file (*.merge.txt) in the following format, using the script below.
 
 <br>
@@ -180,8 +182,8 @@ Format
 Script
 
 ```
+
 1_prep/run_define.sh
-             |-- define_sj.py
 ```
 <br>
 <br>
