@@ -23,13 +23,13 @@ for i in ${CHR_LIST}; do
     CHR_VCF38=${POST_DIR}/${VCF_STEM}.${CHR_NUM}.added.sorted.vcf.gz
     
     # separate into chr and bgzip.
-    bcftools-1.18/bcftools view -r ${CHR_NUM} -O z -o ${CHR_VCF38_PRE} ${INPUT_VCF38}
+    bcftools view -r ${CHR_NUM} -O z -o ${CHR_VCF38_PRE} ${INPUT_VCF38}
 
     # add "chr" prefix.
     1_prep/add_chr.py -vcf ${CHR_VCF38_PRE} -output ${CHR_VCF38_UNSORT}
 
     # sort and index the data
-    bcftools-1.18/bcftools sort ${CHR_VCF38_UNSORT} -O z -o ${CHR_VCF38}
+    bcftools sort ${CHR_VCF38_UNSORT} -O z -o ${CHR_VCF38}
     tabix -p vcf ${CHR_VCF38}
 
 done
