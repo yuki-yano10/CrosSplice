@@ -163,7 +163,7 @@ done
 Filter down to only SNVs with SpliceAI DS_AG/DS_DG ≥ 0.1, and gnomAD AF ≤ 0.01. 
 
 ```
-python 1_prep/vep_filter_spliceai_gnomad.py
+python3 1_prep/vep_filter_spliceai_gnomad.py
 ```
 
 <br>
