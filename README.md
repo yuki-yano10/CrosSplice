@@ -141,7 +141,7 @@ GNOMAD="/path/to/database/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
 SPLICEAI_SNV="/path/to/database/spliceai_scores.raw.snv.hg38.vcf.gz"
 SPLICEAI_INDEL="/path/to/database/spliceai_scores.raw.indel.hg38.vcf.gz"
 
-1_prep/run_singularity.sh ${BIND_DIR} ${VEP_IMAGE} ${INPUT_VCF} ${OUTPUT} ${DIR_CACHE} ${REF} ${GNOMAD} ${SPLICEAI_SNV} ${SPLICEAI_INDEL}  
+1_prep/run_singularity.sh ${WDIR} ${BIND_DIR} ${VEP_IMAGE} ${DIR_CACHE} ${REF} ${GNOMAD} ${SPLICEAI_SNV} ${SPLICEAI_INDEL}  
 
 ```
 <br>
