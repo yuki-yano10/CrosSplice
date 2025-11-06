@@ -13,6 +13,7 @@ You can apply CrosSplice to your own WGS and corresponding RNA-seq data.
 ## Dependency
 ### Environment
 Prepare an environment where you can use **Singurality/Apptainer**, **VEP** and **qsub**.
+Pipeline orchestration and job scheduling were implemented in **Bash** 
 
 ### Software  
 - STAR
