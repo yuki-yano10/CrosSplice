@@ -13,7 +13,7 @@ You can apply CrosSplice to your own WGS and corresponding RNA-seq data.
 ## Dependency
 ### Environment
 Prepare an environment where you can use **Singurality/Apptainer**, **VEP** and **qsub**.
-Pipeline orchestration and job scheduling were implemented in **Bash** 
+Pipeline orchestration and job scheduling were implemented mostly in **Bash** 
 
 ### Software  
 - STAR
@@ -21,6 +21,7 @@ Pipeline orchestration and job scheduling were implemented in **Bash**
 - tabix  
 - bgzip
 - VEP v105
+- singularity
 - liftOver (optional; required when input data are in GRCh37)
 
 <br>
@@ -38,9 +39,10 @@ R (>=4.3.0), ```tidyverse```
 
 ## Preparetion
 ### 1. VEP v105
-- download a cache file for vep v105.
+- download a cache file for vep v105 and extract it before use.
 ```
 wget https://ftp.ensembl.org/pub/release-105/variation/vep/homo_sapiens_vep_105_GRCh38.tar.gz
+tar -zxvf homo_sapiens_vep_105_GRCh38.tar.gz
 ```
 - prepare plugin files for SpliceAI annotation from Illumina basespace (https://basespace.illumina.com/s/otSPW8hnhaZR).
   Download the ```raw_hg38_snv``` and ```raw_hg38_indel``` file, and make sure to index downloaded files using ```tabix```.
@@ -93,7 +95,7 @@ Make sure to unzip the downloaded chain file.
 Preprocess the input VCF file using the following script.
 
 
-```
+```bash
 #!/bin/bash
 WDIR=/path/to/my/project
 INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
@@ -105,7 +107,7 @@ INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
 (**Optional**)  
 When the input file is aligned to GRCh37 and LiftOver is required, you can use the script below instead.
 
-```
+```bash
 #!/bin/bash
 WDIR=/path/to/my/project
 INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf.gz
@@ -120,7 +122,7 @@ CHAIN=/path/to/hg19ToHg38.over.chain
 
 Apply VEP to the preprocessed VCF files to annotate variants with information includion SpliceAI scores and gnomAD allele frequencies.
 
-```
+```bash
 #!/bin/bash
 set -euxo pipefail
 
