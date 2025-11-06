@@ -131,8 +131,6 @@ CHAIN=/path/to/hg19ToHg38.over.chain
 Apply VEP to the preprocessed VCF files to annotate variants with information includion SpliceAI scores and gnomAD allele frequencies.
 
 ```bash
-#!/bin/bash
-set -euxo pipefail
 
 WDIR=/path/to/my/project
 BIND_DIR="/path/to/database,/path/to/my/project,1_prep"
@@ -143,18 +141,8 @@ GNOMAD="/path/to/database/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
 SPLICEAI_SNV="/path/to/database/spliceai_scores.raw.snv.hg38.vcf.gz"
 SPLICEAI_INDEL="/path/to/database/spliceai_scores.raw.indel.hg38.vcf.gz"
 
+1_prep/run_singularity.sh ${BIND_DIR} ${VEP_IMAGE} ${INPUT_VCF} ${OUTPUT} ${DIR_CACHE} ${REF} ${GNOMAD} ${SPLICEAI_SNV} ${SPLICEAI_INDEL}  
 
-CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
-
-mkdir -p $WDIR/post_vep
-
-for i in $CHR_LIST; do
-    INPUT_VCF=$WDIR/prepared/input.${i}.added.sorted.vcf.gz  #input file should be the output file of proc_vcf.sh script.
-    OUTPUT="$WDIR/post_vep/input.${i}.rare-variant.vep.vcf.gz"
-
-    1_prep/singularity_vep_annot_germline.sh ${BIND_DIR} ${VEP_IMAGE} ${INPUT_VCF} ${OUTPUT} ${DIR_CACHE} ${REF} ${GNOMAD} ${SPLICEAI_SNV} ${SPLICEAI_INDEL}  
-
-done
 ```
 <br>
 
