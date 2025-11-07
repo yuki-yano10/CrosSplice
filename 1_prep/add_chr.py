@@ -41,4 +41,3 @@ if __name__ == "__main__":
     o = parser.parse_args()
 
     add_chr(o.vcf, o.output)
-:wq
