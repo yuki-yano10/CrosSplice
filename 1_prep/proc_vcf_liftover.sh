@@ -2,10 +2,10 @@
 #$ -S /bin/bash
 set -euxo pipefail
 
-CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y" 
-WDIR="$1"
-INPUT_VCF37="$2"
-CHAIN="$3"
+CHR_LIST=$1
+WDIR=$2
+INPUT_VCF37=$3
+CHAIN=$4
 
 VCF_STEM=$(basename "$INPUT_VCF37" .vcf.gz)
 VCF_DIR=$WDIR/vcf
