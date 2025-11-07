@@ -105,10 +105,11 @@ Preprocess the input VCF file using the following script.
 
 ```bash
 #!/bin/bash
+CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
 WDIR=/path/to/my/project
 INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
 
-1_prep/proc_vcf.sh ${WDIR} ${INPUT_VCF38}
+1_prep/proc_vcf.sh ${CHR_LIST} ${WDIR} ${INPUT_VCF38}
 ```
 <br>
 
@@ -117,11 +118,12 @@ When the input file is aligned to GRCh37 and LiftOver is required, you can use t
 
 ```bash
 #!/bin/bash
+CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
 WDIR=/path/to/my/project
 INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf.gz
 CHAIN=/path/to/hg19ToHg38.over.chain
 
-1_prep/proc_vcf_liftover.sh ${WDIR} ${INPUT_VCF37} ${CHAIN}
+1_prep/proc_vcf_liftover.sh ${CHR_LIST} ${WDIR} ${INPUT_VCF37} ${CHAIN}
 ```
 
 <br>
