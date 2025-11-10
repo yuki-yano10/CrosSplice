@@ -5,14 +5,10 @@
 from argparse import ArgumentParser               
 import subprocess
 import os
-
+import gzip
 
 def add_chr(vcf, output):
-
-    import gzip
-    
     with gzip.open(vcf, 'rt') as hin, open(output, "w") as hout:
-
         for line in hin:
             F = line.rstrip('\n').split('\t')
             if F[0].startswith("##"):
@@ -23,16 +19,13 @@ def add_chr(vcf, output):
                 else:
                     hout.write(line)
                     continue
-            if F[0].startswith("#CHROM"):
-                #rec = '\t'.join(F[:8]) +"\n"                   
+            if F[0].startswith("#CHROM"):                   
                 hout.write(line)
                 continue
-            
-            chr = F[0]
-            new_chr = "chr" + str(chr)
-            pos = F[1]
-        
-            if new_chr == target:
+            else:
+                chr = F[0]
+                new_chr = "chr" + str(chr)
+                pos = F[1]
         
                 rec = new_chr + "\t" + str(pos) +"\t"+ '\t'.join(F[2:]) +"\n"   
                 hout.write(rec)

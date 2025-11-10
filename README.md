@@ -102,12 +102,12 @@ Make sure to unzip the downloaded chain file.
 ### 1. Preprocessing of a VCF file.
 Preprocess the input VCF file using the following script.
 
-
 ```bash
 #!/bin/bash
 CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
 WDIR=/path/to/my/project
 INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
+CHR_PRE="True" # set to "True" if chromosome names in the input VCF contains the "chr" prefix, otherwise "False"
 
 1_prep/proc_vcf.sh ${CHR_LIST} ${WDIR} ${INPUT_VCF38}
 ```
@@ -122,8 +122,9 @@ CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
 WDIR=/path/to/my/project
 INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf.gz
 CHAIN=/path/to/hg19ToHg38.over.chain
+CHR_PRE="True" # set to "True" if chromosome names in the input VCF contains the "chr" prefix, otherwise "False"
 
-1_prep/proc_vcf_liftover.sh ${CHR_LIST} ${WDIR} ${INPUT_VCF37} ${CHAIN}
+1_prep/proc_vcf_liftover.sh ${CHR_LIST} ${WDIR} ${INPUT_VCF37} ${CHAIN} ${CHR_PRE}
 ```
 
 <br>
