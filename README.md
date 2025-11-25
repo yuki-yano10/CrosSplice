@@ -49,12 +49,11 @@ tar -zxvf homo_sapiens_vep_105_GRCh38.tar.gz
 - prepare a gnomAD variant file (```sites.vcf.bgz```) for gnomAD annotation from gnomAD Downloads (https://gnomad.broadinstitute.org/downloads).
   In our study, we merged VCF files from all chromosomes and removed per-sample genotype information to reduce file size and improve data access efficiency. Make sure to index the vcf file using ```tabix```.
 - prepare a reference FASTA file. In our study, we used ```Homo_sapiens_assembly38.fasta``` downloaded from the DDJB site.
-- build the Singularity image for vep.
-  Singularity-compatible Dockerfile is derived from the official Ensemble VEP Dockerfile (release 105: https://github.com/Ensembl/ensembl-vep/tree/release/105/docker). The only modification is that the section for creating and switching to the `vep` user was commented out, since Singularity runs as the host user and does not support user switching inside the container.
-  
-  You can build the Singularity image (```ensemble-vep.sif```) as follows:
+- prepare the Singularity image for vep.
+  A pre-built Singularity image is available in this repository's [Release].
+  Download as follows:   
   ```bash
-  singularity build ensemble-vep.sif dockerfile://1_prep/ensemble-vep.Dockerfile 
+  wget https://github.com/yuki-yano10/CrosSplice/releases/download/vep_image/ensembl-vep-20220216.simg 
   ```
   
   
@@ -77,7 +76,7 @@ python3 1_prep/convert_mane_gff_to_json.py /path/to/MANE.GRCh38.v1.0.ensembl_gen
 - download a VCF file containing genotype information obtained from WGS data (e.g., output of GATK HaplotypeCaller), along with the corresponding RNA-seq data.
 - perform STAR alignment on RNA-seq data to generate SJ.out.tab files.
 - bgzip the SJ.out.tab files.
-- prepare metadata that associates each RNA-seq sample with its corresponding WGS sample and tissue name, and create a sample list containing tisuse names in the follwoing format:
+- prepare metadata that associates each RNA-seq sample with its corresponding WGS sample and tissue name, and create a sample list (```sjouttab_list.txt```) containing tisuse names in the follwoing format:
 
 ```
 Repository_sample_id    Run     Tissue  Path
@@ -131,20 +130,20 @@ CHR_PRE="True" # set to "True" if chromosome names in the input VCF contains the
 
 ### 2. Annotate variants in VCF files using VEP.
 
-Apply VEP to the preprocessed VCF files to annotate variants with information includion SpliceAI scores and gnomAD allele frequencies.
+Apply VEP to the preprocessed VCF files to annotate variants with information includion SpliceAI scores and gnomAD allele frequencies. When the "BIND_DIR" variable contains commas inside, make sure to enclose it in double quotes.
 
 ```bash
 
-WDIR=/path/to/my/project
+WDIR="/path/to/my/project"
 BIND_DIR="/path/to/database,/path/to/my/project,1_prep"
-VEP_IMAGE="1_prep/ensemble-vep.sif"
-DIR_CACHE="/path/to/database/homo_sapiens_vep_105_GRCh38"
+VEP_IMAGE="/path/to/ensembl-vep-20220216.simg"
+DIR_CACHE="/path/to/database/vep_105/vep_data"
 REF="/path/to/database/Homo_sapiens_assembly38.fasta"
 GNOMAD="/path/to/database/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
 SPLICEAI_SNV="/path/to/database/spliceai_scores.raw.snv.hg38.vcf.gz"
 SPLICEAI_INDEL="/path/to/database/spliceai_scores.raw.indel.hg38.vcf.gz"
 
-1_prep/run_singularity.sh ${WDIR} ${BIND_DIR} ${VEP_IMAGE} ${DIR_CACHE} ${REF} ${GNOMAD} ${SPLICEAI_SNV} ${SPLICEAI_INDEL}  
+1_prep/singularity_vep_annot_germline.sh "${BIND_DIR}" "${VEP_IMAGE}" "${WDIR}" "${DIR_CACHE}" "${REF}" "${GNOMAD}" "${SPLICEAI_SNV}" "${SPLICEAI_INDEL}"  
 
 ```
 <br>
@@ -185,6 +184,8 @@ Format
 Script
 
 ```
+WDIR=/path/to/my/project
+
 
 1_prep/run_define.sh
 ```
@@ -205,12 +206,34 @@ For each variant, an **alternative ratio** is calculated as follows.
 <br>
 
 ### Script
+
+When you DO NOT need liftover, use the ```run_val.sh``` script as follows.
+
 ```
-2_validation/run_val.sh
-                 |-- run.sh
-                        |-- split_file.py
-                        |-- mutkey_38lift37.py
-                        |-- sj_count.py
+WDIR=/path/to/my/project
+INPUT=$WDIR/output/cross_input.merge.txt
+OUTPUT_VALIDATION=$WDIR/output/cross.validation.txt
+VCF_38=/path/to/vcf/input.GRCh38.vcf.gz       # Put the original vcf file befored devided
+PROCESSES=4     # Adjust the number of processes as needed.
+SJOUT_TAB=/path/to/sjouttab_list.txt
+
+bash 2_validation/run_with_lift.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF_38} ${PROCESSES} ${SJOUT_TAB}
+
+```
+
+
+When liftover is needed, use the ```run_with_lift.sh``` script as follows.
+
+```
+WDIR=/path/to/my/project
+INPUT=$WDIR/output/cross_input.merge.txt
+OUTPUT_VALIDATION=$WDIR/output/cross.validation.txt
+VCF_37=/path/to/vcf/input.GRCh37.vcf.gz       # Put the original vcf file befored devided
+PROCESSES=4     # Adjust the number of processes as needed. 
+CHAIN=/path/to/hg38ToHg19.over.chain
+SJOUT_TAB=/path/to/sjouttab_list.txt
+
+bash 2_validation/run_with_lift.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF_37} ${PROCESSES} ${CHAIN} ${SJOUT_TAB}
 ```
 
 <br>

@@ -7,7 +7,7 @@ import subprocess
 import os
 
 
-def lift37to38_for_vep(vcf, output, chain, target):
+def lift37to38_for_vep(vcf, output, chain, target, prefix):
 
     import gzip
     
@@ -30,7 +30,10 @@ def lift37to38_for_vep(vcf, output, chain, target):
             
             chr = F[0]
             pos = F[1]
-            mut_position =  "chr"+chr+"\t"+str(pos)+"\t"+str(int(pos)+1)
+            if prefix:
+                mut_position = chr+"\t"+str(pos)+"\t"+str(int(pos)+1)
+            else:
+                mut_position =  "chr"+chr+"\t"+str(pos)+"\t"+str(int(pos)+1)
             
             with open(output+".q.bed", 'w') as bout:
                 bout.write(mut_position + "\n")
@@ -66,6 +69,7 @@ if __name__ == "__main__":
     parser.add_argument("-output", action="store", dest="output", help="output file", required=True)
     parser.add_argument("-chain", action="store", dest="chain", help="chain file", required=True)
     parser.add_argument("-target", action="store", dest="target", help="target", required=True)
+    parser.add_argument("-prefix", action="store", dest="prefix", type=lambda x:str(x).lower() in ["true", "t", "1"], required = True, help="set True if input vcf has `chr` prefix, otherwise False")
     o = parser.parse_args()
 
-    lift37to38_for_vep(o.vcf, o.output, o.chain, o.target)
+    lift37to38_for_vep(o.vcf, o.output, o.chain, o.target, o.prefix)

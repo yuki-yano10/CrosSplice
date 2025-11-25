@@ -16,18 +16,20 @@ import json
 
 
 def check_chr(vcf_file):
+    vcf_has_chr= False
     with gzip.open(vcf_file, "rt") as hin:
         for line in hin:
             if line.startswith("#CHROM"):
                 continue
             if not line.startswith("##"):
                 chrom = line.split("\t")[0]
-                vcf_has_chr=chrom.startswith("chr")
+                vcf_has_chr = chrom.startswith("chr")
                 break
+    
     return vcf_has_chr
 
 
-def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
+def mutkey_direct(input_file, output_dir, vcf_file, sjouttab_list):
     vcf_has_chr = check_chr(vcf_file)
     print("vcf_has_chr: ", vcf_has_chr)
     sjouttab_dict = {}
@@ -57,33 +59,14 @@ def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
         csvheader = csvreader.fieldnames
         for csvobj in csvreader:
             mut_key_chr = csvobj["Chr"]
-            mut_key_position = int(csvobj["Position"])
-            
-            with open(output_prefix + ".q.bed", 'w') as bout:
-               bout.write("%s\t%d\t%d\n" % (mut_key_chr, mut_key_position, mut_key_position + 1))
-            
-            liftover_commands = ["/home/yano_y/tool/liftOver", output_prefix+".q.bed", chain, output_prefix+".lift.bed", output_prefix+".unmap.bed"]
-            subprocess.call(liftover_commands)
-            
-            liftover_success = False
-            with open(output_prefix+".lift.bed", "r") as lin:
-                for row in lin:
-                    R = row.rstrip('\n').split('\t')
-                    chr37 = R[0].replace("chr", "")
-                    if vcf_has_chr:
-                        region_chr = "chr" + chr37
-                    else:
-                        region_chr = chr37
-                    position37 = R[1]
-                    liftover_success = True
-            os.remove(output_prefix+".q.bed")
-            os.remove(output_prefix+".lift.bed")
-            os.remove(output_prefix+".unmap.bed")
+            if vcf_has_chr:
+                region_chr = mut_key_chr
+            else:
+                region_chr = mut_key_chr.replace("chr", "")
 
-            if not liftover_success:
-                continue
+            pos = int(csvobj["Position"])
 
-            region = "%s:%s-%d" % (region_chr, position37, int(position37) + 1)
+            region = "%s:%s-%d" % (region_chr, pos, pos + 1)
             gtex_records = None
             try:
                 gtex_records = gtex_tb.fetch(region = region)
@@ -92,16 +75,12 @@ def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
             if gtex_records == None:
                 continue
 
-            csvobj["Chr37"] = chr37
-            csvobj["Position37"] = position37
-            if vcf_has_chr:
-                chrom_for_key = "chr" + chr37
-            else:
-                chrom_for_key = chr37
-            mkey37 = ",".join([chrom_for_key, position37, csvobj["Ref"], csvobj["Alt"]])
+            csvobj["Chr38"] = region_chr
+            csvobj["Position38"] = pos
+            mkey38 = ",".join(map(str, [region_chr, pos, csvobj["Ref"], csvobj["Alt"]]))
             for record in gtex_records:
                 R = record.split("\t")
-                if ",".join([R[0], R[1], R[3], R[4]]) != mkey37:
+                if ",".join([R[0], R[1], R[3], R[4]]) != mkey38:
                     continue
                 for ind in range(9, len(R)):
                     sample = ind2sample[ind]
@@ -130,7 +109,7 @@ def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
     for run in writeobj_sjouttab:
         with open("%s.%s" % (output_prefix, run), "w") as hout:
             csvwriter = csv.DictWriter(hout, delimiter='\t', lineterminator='\n', fieldnames=csvheader + [
-                "Chr37", "Position37", "Is_Mutation", "Repository_sample_id", "Run", "Tissue", "SJ_out_tab_path"
+                "Chr38", "Position38", "Is_Mutation", "Repository_sample_id", "Run", "Tissue", "SJ_out_tab_path"
             ])
             csvwriter.writeheader()
             csvwriter.writerows(writeobj_sjouttab[run].values())
@@ -139,8 +118,7 @@ if __name__ == "__main__":
     import sys
     input_file = sys.argv[1]
     output_dir = sys.argv[2]
-    chain = sys.argv[3]
-    vcf_file = sys.argv[4]
-    sjouttab_list = sys.argv[5]
+    vcf_file = sys.argv[3]
+    sjouttab_list = sys.argv[4]
 
-    mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list)
+    mutkey_direct(input_file, output_dir, vcf_file, sjouttab_list)

@@ -1,14 +1,17 @@
 #!/bin/bash
 #$ -S /bin/bash
 
+WDIR=$1
+GENCODE=$2
+MANE=$3
 
-WDIR=/path/to/my/project
-INPUT_FILE=$WDIR/post_filter/input.all.gnomad001.spliceaiG01.txt
-VAL_INPUT_FORMAT=$WDIR/output/input.merge.txt
+INPUT_DIR=$WDIR/post_filter
+OUTPUT_DIR=$WDIR/output
+mkdir -p $OUTPUT_DIR
 
-GENCODE=/path/to/wgEncodeGencodeBasicV39.bed.gz
-MANE=/path/to/MANE.GRCh38.v1.0.ensembl_genomic.gff.transcript_tag.json
-VCF=/path/to/vcf/input.vcf.gz
+VAL_INPUT_FORMAT=$OUTPUT_DIR/cross_input.merge.txt
+INPUT_FILES=$OUTPUT_DIR/input_files.txt
 
+find ${INPUT_DIR} -type f -name "*.filtered.txt" | sort > ${INPUT_FILES}
 
-python3 1_prep/define_sj.py ${INPUT_FILE} ${VAL_INPUT_FORMAT} ${GENCODE} ${MANE}
+python3 1_prep/define_sj.py ${INPUT_FILES} ${VAL_INPUT_FORMAT} ${GENCODE} ${MANE}

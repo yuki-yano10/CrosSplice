@@ -4,20 +4,27 @@
 import gzip
 import sys
 import os
+from pathlib import Path
 
-working_directory = sys.argv[1] 
-output_path = f"{working_directory}/post_filter"
-os.makedirs(output_path, exist_ok=True)
+working_directory = sys.argv[1]
 
-output_file = f"{output_path}/input.all.gnomad001.spliceaiG01.txt"
+input_dir = Path(f"{working_directory}/post_vep")
+input_files = sorted(input_dir.glob("*.prepared.vep.vcf.gz"))
+
+output_dir = Path(f"{working_directory}/post_filter")
+os.makedirs(output_dir, exist_ok=True)
+output_file = f"{output_dir}/input.all.gnomad001.spliceaiG01.filtered.txt"
 
 with open(output_file, "w") as hout:
     header = "Mut_key\tChr\tPos\tRef\tAlt\tGene\tSpliceAI_pred_DP_AG\tSpliceAI_pred_DP_AL\tSpliceAI_pred_DP_DG\tSpliceAI_pred_DP_DL\tSpliceAI_pred_DS_AG\tSpliceAI_pred_DS_AL\tSpliceAI_pred_DS_DG\tSpliceAI_pred_DS_DL\tSpliceAI_pred_SYMBOL\tgnomADg_AF\n"
     hout.write(header)
     
-    for i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,"X"]:
-        input_vcf = f"{working_directory}/post_vep/input.{i}.rare-variant.vep.vcf.gz"
-        output_vcf = f"{output_path}/input.{i}.gnomad001.spliceaiG01.vcf"
+    for input_vcf in input_files:
+        stem = input_vcf.name.replace(".prepared.vep.vcf.gz", "")
+        output_vcf = output_dir / f"{stem}.gnomad001.spliceaiG01.vcf.gz"
+
+        print(f"Input : {input_vcf}")
+        print(f"Output : {output_vcf}")
         
         with gzip.open(input_vcf, 'rt') as hin, open(output_vcf,"w") as vout:
            for line in hin:
@@ -43,7 +50,7 @@ with open(output_file, "w") as hout:
                          gene = A[3]
                          SpliceAI_pred_DS_AG = A[43]
                          SpliceAI_pred_DS_DG = A[45]
-                         gnomADg_AF = A[55]
+                         gnomADg_AF = A[49]
                                 
                          if SpliceAI_pred_DS_AG == "" or SpliceAI_pred_DS_DG == "": 
                              continue

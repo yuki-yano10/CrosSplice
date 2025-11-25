@@ -98,7 +98,7 @@ def call_sj_screening(input_files, output_dir, index):
     print("End Process (%d): ret_code=%d" % (index, ret_code))
     return (ret_code, err_message)
 
-def main(input_dir, output_dir, processes=1):
+def main(input_dir, output_dir, processes):
 
     import glob
     glob_files = {}
