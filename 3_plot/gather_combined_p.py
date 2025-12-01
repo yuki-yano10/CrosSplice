@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@author: Naoko Iida
 
-"""
 
 import glob
 import csv

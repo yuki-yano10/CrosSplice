@@ -207,33 +207,22 @@ For each variant, an **alternative ratio** is calculated as follows.
 
 ### Script
 
-When you DO NOT need liftover, use the ```run_val.sh``` script as follows.
+When you DO NOT need liftover, set "lift" in "MODE" augment, and give a chain file path (hg38ToHg19).
+If the liftover is NEEDED, set "direct" in "MODE" augment and put "NONE" to "CHAIN" augment.
+For "VCF" augment, give a path of original vcf file before devided. For "SJOUT_TAB" augment, give a file path for the sjouttab list you made in the previous section. You can adjust the "PROCESSES" number.
 
+An example below is the script when liftover is needed.
 ```
 WDIR=/path/to/my/project
 INPUT=$WDIR/output/cross_input.merge.txt
 OUTPUT_VALIDATION=$WDIR/output/cross.validation.txt
-VCF_38=/path/to/vcf/input.GRCh38.vcf.gz       # Put the original vcf file befored devided
-PROCESSES=4     # Adjust the number of processes as needed.
-SJOUT_TAB=/path/to/sjouttab_list.txt
-
-bash 2_validation/run_with_lift.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF_38} ${PROCESSES} ${SJOUT_TAB}
-
-```
-
-
-When liftover is needed, use the ```run_with_lift.sh``` script as follows.
-
-```
-WDIR=/path/to/my/project
-INPUT=$WDIR/output/cross_input.merge.txt
-OUTPUT_VALIDATION=$WDIR/output/cross.validation.txt
-VCF_37=/path/to/vcf/input.GRCh37.vcf.gz       # Put the original vcf file befored devided
-PROCESSES=4     # Adjust the number of processes as needed. 
+VCF=/path/to/vcf/input.GRCh37.vcf.gz
+PROCESSES=4
+MODE="lift"
 CHAIN=/path/to/hg38ToHg19.over.chain
 SJOUT_TAB=/path/to/sjouttab_list.txt
 
-bash 2_validation/run_with_lift.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF_37} ${PROCESSES} ${CHAIN} ${SJOUT_TAB}
+bash 2_validation/run_val.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MODE} ${CHAIN} ${SJOUT_TAB}
 ```
 
 <br>
@@ -247,10 +236,15 @@ Lastly, integrate the p-values of each tissue into a single combined p-value usi
 <br>
 
 ### Script
+
 ```
-3_plot/plot_figure.sh
-            |-- plot_figure.sh
-                     |-- pararell_get_pvalue_spliceai.R
-                     |-- gather_combined_p.py
+WDIR=/path/to/my/project
+INPUT=$WDIR/output/cross.validation.txt
+VCF=/path/to/vcf.gz
+PROCESSES=4
+PLOT_DIR=$WDIR/figure_directory
+PLOT_CODE="TRUE"  # or "FALSE"
+
+qsub -cwd -l lmem,s_vmem=60G -pe def_slot 4 -sync y 3_plot/plot_figure.sh ${INPUT} ${PLOT_DIR} ${PLOT_CODE}
 ```           
 

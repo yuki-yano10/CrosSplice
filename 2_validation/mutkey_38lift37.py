@@ -29,7 +29,6 @@ def check_chr(vcf_file):
 
 def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
     vcf_has_chr = check_chr(vcf_file)
-    print("vcf_has_chr: ", vcf_has_chr)
     sjouttab_dict = {}
     with open(sjouttab_list, 'r') as hin:
         csvreader = csv.DictReader(hin, delimiter='\t')
@@ -79,34 +78,35 @@ def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
             os.remove(output_prefix+".q.bed")
             os.remove(output_prefix+".lift.bed")
             os.remove(output_prefix+".unmap.bed")
-
             if not liftover_success:
                 continue
 
             region = "%s:%s-%d" % (region_chr, position37, int(position37) + 1)
+            print("region: ", region)
             gtex_records = None
             try:
                 gtex_records = gtex_tb.fetch(region = region)
             except Exception as e:
                 print(e)
             if gtex_records == None:
+                print("gtex_records:none")
                 continue
 
-            csvobj["Chr37"] = chr37
+            csvobj["Chr37"] = "chr"+chr37
             csvobj["Position37"] = position37
-            if vcf_has_chr:
-                chrom_for_key = "chr" + chr37
-            else:
-                chrom_for_key = chr37
-            mkey37 = ",".join([chrom_for_key, position37, csvobj["Ref"], csvobj["Alt"]])
+
+            mkey37 = ",".join([region_chr, position37, csvobj["Ref"], csvobj["Alt"]])
+            print(mkey37)
             for record in gtex_records:
                 R = record.split("\t")
                 if ",".join([R[0], R[1], R[3], R[4]]) != mkey37:
+                    print("mkey37 was not in record")
                     continue
                 for ind in range(9, len(R)):
                     sample = ind2sample[ind]
                     if not sample in sjouttab_dict:
                         continue
+                    print("mutkey: ", mkey37, " was in record")
                     mut = "NA"
                     GT = R[ind].split(':')[0]
                     if GT in ["1/0", "0/1", "1/1"]:

@@ -2,13 +2,59 @@ library(tidyverse)
 library(foreach)
 library(doParallel)
 
-# 引数処理
+# Argument processing
 args <- commandArgs(trailingOnly = TRUE)
 input_file <- args[1]
 output_dir <- args[2]
 do_plot <- args[3]
 
-# データ読み込みと前処理
+# Set the graph theme for plotting.
+my_theme <- function() {
+	theme_minimal(base_family = "Helvetica")+
+	theme(title = element_text(size = 8),
+	panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+	panel.grid.minor = element_blank(),
+	plot.margin = unit(c(0.21, 0.21, 0.21, 0.21), "lines"),
+	axis.line = element_line(colour = "grey20", size = 0.5), 
+	axis.text = element_text(size = 8),
+	axis.title = element_text(size = 8),
+	axis.title.y = element_text(angle = 90),
+	legend.key = element_blank(), 
+	legend.key.size = unit(0.25, "cm"),
+	legend.margin = margin(0.5, 0.5, 0.5, 0.5),
+	legend.text = element_text(size = 8),
+	strip.text = element_text(size = 8),
+	#strip.background = element_rect(fill = "white", colour = "black", size = 1),
+	strip.background = element_blank(), 
+	panel.background = element_blank(),
+	complete = TRUE)
+}
+
+
+mutkey_plot <- function(mutkey, plot_file) {
+	D2 <- D %>% filter(MutKey2 == mutkey) %>% filter(Depth != 0)
+        tissue_list <- D2 %>% select(Tissue2) %>% unique() %>% pull()
+        D3 <- D2 %>% filter(Tissue2 %in% tissue_list)
+        mkey <- str_replace_all(unlist(str_split(mutkey, pattern = ' '))[1], ',', '-')
+        mgene <- unlist(str_split(mutkey, pattern = ' '))[2]
+        p <- ggplot(D3 %>% arrange(Is_Mutation), aes(x = Tissue2, y = Primary_read_count / (Depth + 1), color = Is_Mutation, alpha = Is_Mutation)) + 
+		geom_jitter(width = 0.1,height=0, size = 0.75) +
+		labs(x = "", y = "Alternative ratio", colour = "Is_Mutation", alpha = "Is_Mutation") +
+		ggtitle(bquote(italic(.(mgene))~' '~.(mkey))) +
+		my_theme() +
+		theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+		      axis.text = element_text(size = 8)) + 
+                scale_colour_manual(values = c("TRUE" = "#ff7f00", "FALSE" = "#999999")) + 
+		scale_alpha_manual(values = c("TRUE" = 1, "FALSE" = 0.25)) + 
+		guides(color = FALSE, alpha = FALSE)
+
+      ggsave(plot_file, width = 14, height = 10, units = "cm")
+}
+
+
+
+# Data loading
 D <- read.delim(input_file, sep="\t", header=TRUE)
 D$Tissue2 <- unlist(lapply(strsplit(D$Tissue, "\\."), function(x) {sub("_", " ", x[2])}))
 D <- D %>% mutate(MutKey2 = paste(Chr, Position, Ref, Alt, sep=",")) %>%mutate(MutKey2 = paste(MutKey2, Gene)) %>%filter(Depth!=0)
@@ -16,12 +62,12 @@ D <- D %>% mutate(Is_Mutation = as.character(Is_Mutation))
 
 mutkey_list <- D %>% filter(Is_Mutation == "True") %>% select(MutKey2) %>% unique() %>% pull()
 
-# 並列化の準備
-cores <- as.integer(Sys.getenv("NSLOTS", unset=4))  # 環境変数NSLOTSがあれば使う（SGE対応）
+# Prepation for pararell processing
+cores <- as.integer(Sys.getenv("NSLOTS", unset=4))
 cl <- makeCluster(cores)
 registerDoParallel(cl)
 
-# 並列実行
+# Pararell processing
 foreach(mutkey = mutkey_list, .packages = c("tidyverse")) %dopar% {
 
 	get_pvalue_table <- function(mutkey, table_file) {
@@ -56,11 +102,11 @@ foreach(mutkey = mutkey_list, .packages = c("tidyverse")) %dopar% {
 
 	if (do_plot == "TRUE") {
 		plot_file <- paste0(output_dir, "/figure/gtex_validation_", s2, "_MutPosTissue.pdf")
-		mutkey_plot(mutkey, plot_file)  # 必要ならこの関数もスコープ内に入れる
+		mutkey_plot(mutkey, plot_file)
 	}
 }
 
 				      
-# クラスターを停止
+
 stopCluster(cl)
 
