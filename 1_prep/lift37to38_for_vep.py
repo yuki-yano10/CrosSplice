@@ -38,7 +38,7 @@ def lift37to38_for_vep(vcf, output, chain, target, prefix):
             with open(output+".q.bed", 'w') as bout:
                 bout.write(mut_position + "\n")
             
-            liftover_commands = ["/home/yano_y/tool/liftOver", output+".q.bed", chain, output+".lift.bed", output+".unmap.bed"]
+            liftover_commands = ["/path/to/liftOver", output+".q.bed", chain, output+".lift.bed", output+".unmap.bed"]
             subprocess.call(liftover_commands)
         
             new_pos = "-"

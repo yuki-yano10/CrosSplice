@@ -6,7 +6,6 @@ library(doParallel)
 args <- commandArgs(trailingOnly = TRUE)
 input_file <- args[1]
 output_dir <- args[2]
-do_plot <- args[3]
 
 # Set the graph theme for plotting.
 my_theme <- function() {
@@ -100,10 +99,8 @@ foreach(mutkey = mutkey_list, .packages = c("tidyverse")) %dopar% {
 	table_file <- paste0(output_dir, "/tsv/gtex_validation_", s2, "_pvalue.tsv")
 	get_pvalue_table(mutkey, table_file)
 
-	if (do_plot == "TRUE") {
-		plot_file <- paste0(output_dir, "/figure/gtex_validation_", s2, "_MutPosTissue.pdf")
-		mutkey_plot(mutkey, plot_file)
-	}
+	plot_file <- paste0(output_dir, "/figure/gtex_validation_", s2, "_MutPosTissue.pdf")
+	mutkey_plot(mutkey, plot_file)
 }
 
 				      

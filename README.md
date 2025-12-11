@@ -16,7 +16,6 @@ Prepare an environment where you can use **Singurality/Apptainer**, **VEP** and 
 Pipeline orchestration and job scheduling were implemented mostly in **Bash** 
 
 ### Software  
-- STAR
 - bcftools  
 - tabix  
 - bgzip
@@ -72,8 +71,18 @@ python3 1_prep/convert_mane_gff_to_json.py /path/to/MANE.GRCh38.v1.0.ensembl_gen
 
 <br>
 
-### 3. Prepare the input WGS and corresponding RNA-eq data
-- download a VCF file containing genotype information obtained from WGS data (e.g., output of GATK HaplotypeCaller), along with the corresponding RNA-seq data.
+### 3. GENCODE file
+- download a GENCODE file.
+```
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/wgEncodeGencodeGeneSymbolV39.txt.gz
+```
+- Convert the file into bed format and compress, using 1_prep/convert_gencode_to_bed.sh.
+
+<br>
+
+
+### 4. Prepare the input WGS and corresponding RNA-eq data
+- prepare a VCF file containing genotype information obtained from WGS data (e.g., output of GATK HaplotypeCaller), along with the corresponding RNA-seq data.
 - perform STAR alignment on RNA-seq data to generate SJ.out.tab files.
 - bgzip the SJ.out.tab files.
 - prepare metadata that associates each RNA-seq sample with its corresponding WGS sample and tissue name, and create a sample list (```sjouttab_list.txt```) containing tisuse names in the follwoing format:
@@ -106,9 +115,9 @@ Preprocess the input VCF file using the following script.
 CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
 WDIR=/path/to/my/project
 INPUT_VCF38=/path/to/vcf/input.GRCh38.vcf.gz
-CHR_PRE="True" # set to "True" if chromosome names in the input VCF contains the "chr" prefix, otherwise "False"
+CHR_PRE="true" # set to "true" if chromosome names in the input VCF contains the "chr" prefix, otherwise "false"
 
-1_prep/proc_vcf.sh ${CHR_LIST} ${WDIR} ${INPUT_VCF38}
+1_prep/proc_vcf.sh "${CHR_LIST}" ${WDIR} ${INPUT_VCF38}
 ```
 <br>
 
@@ -121,9 +130,10 @@ CHR_LIST="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y"
 WDIR=/path/to/my/project
 INPUT_VCF37=/path/to/vcf/input.GRCh37.vcf.gz
 CHAIN=/path/to/hg19ToHg38.over.chain
-CHR_PRE="True" # set to "True" if chromosome names in the input VCF contains the "chr" prefix, otherwise "False"
+CHR_PRE="True" # set to "true" if chromosome names in the input VCF contains the "chr" prefix, otherwise "false".
+Allowed values (case-inseisitive): ```true/false```, 
 
-1_prep/proc_vcf_liftover.sh ${CHR_LIST} ${WDIR} ${INPUT_VCF37} ${CHAIN} ${CHR_PRE}
+1_prep/proc_vcf_liftover.sh "${CHR_LIST}" ${WDIR} ${INPUT_VCF37} ${CHAIN} ${CHR_PRE}
 ```
 
 <br>
@@ -185,9 +195,10 @@ Script
 
 ```
 WDIR=/path/to/my/project
+GENCODE=/path/to/gencode.bed.gz
+MANE=/path/to/mane.json
 
-
-1_prep/run_define.sh
+1_prep/run_define.sh ${WDIR} ${GENCODE} ${MANE}
 ```
 <br>
 <br>
@@ -222,7 +233,7 @@ MODE="lift"
 CHAIN=/path/to/hg38ToHg19.over.chain
 SJOUT_TAB=/path/to/sjouttab_list.txt
 
-bash 2_validation/run_val.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MODE} ${CHAIN} ${SJOUT_TAB}
+bash 2_validation/run.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MODE} ${CHAIN} ${SJOUT_TAB}
 ```
 
 <br>
@@ -243,8 +254,7 @@ INPUT=$WDIR/output/cross.validation.txt
 VCF=/path/to/vcf.gz
 PROCESSES=4
 PLOT_DIR=$WDIR/figure_directory
-PLOT_CODE="TRUE"  # or "FALSE"
 
-qsub -cwd -l lmem,s_vmem=60G -pe def_slot 4 -sync y 3_plot/plot_figure.sh ${INPUT} ${PLOT_DIR} ${PLOT_CODE}
+qsub -cwd -l lmem,s_vmem=60G -pe def_slot 4 -sync y 3_plot/plot_figure.sh ${INPUT} ${PLOT_DIR}
 ```           
 

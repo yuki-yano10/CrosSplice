@@ -61,7 +61,7 @@ def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
             with open(output_prefix + ".q.bed", 'w') as bout:
                bout.write("%s\t%d\t%d\n" % (mut_key_chr, mut_key_position, mut_key_position + 1))
             
-            liftover_commands = ["/home/yano_y/tool/liftOver", output_prefix+".q.bed", chain, output_prefix+".lift.bed", output_prefix+".unmap.bed"]
+            liftover_commands = ["/path/to/liftOver", output_prefix+".q.bed", chain, output_prefix+".lift.bed", output_prefix+".unmap.bed"]
             subprocess.call(liftover_commands)
             
             liftover_success = False

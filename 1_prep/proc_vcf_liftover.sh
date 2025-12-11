@@ -6,7 +6,7 @@ CHR_LIST=$1
 WDIR=$2
 INPUT_VCF37=$3
 CHAIN=$4
-CHR_PRE="${5:?set True if input has `chr` prefix, False otherwise}"
+CHR_PRE="${5:?set TRUE if input has `chr` prefix, False otherwise}"
 
 VCF_STEM=$(basename "$INPUT_VCF37" .vcf.gz)
 VCF_DIR=$WDIR/vcf
@@ -15,11 +15,18 @@ POST_DIR=$WDIR/prepared
 mkdir -p ${VCF_DIR}
 mkdir -p ${POST_DIR}
 
-if [[ "${CHR_PRE}" == "TRUE" ]]; then
-	IN_PREFIX="chr"
-else
-	IN_PREFIX=""
-fi
+case "${CHR_PRE,,}" in
+	true|t|1|yes|y)
+		IN_PREFIX="chr"
+		;;
+	false|f|0|no|n)
+		IN_PREFIX=""
+		;;
+        *)
+		echo "Error: CHR_PRE must be one of: true/false, t/f, 1/0, yes/no, y/n." >&2
+		exit 1
+		;;
+esac
 
 
 for i in ${CHR_LIST}; do
