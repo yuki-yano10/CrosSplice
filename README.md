@@ -9,6 +9,7 @@ You can apply CrosSplice to your own WGS and corresponding RNA-seq data.
 
 <br>
 <br>
+
 ## Intended use and assumptions
 CrosSplice is primarily designed to detect **germline** or constitutional splice-site-creating variants from paired WGS and RNA-seq data. The pipeline assumes that variant carrier status can be defined from DNA sequencing data and compared with RNA-seq junction read support across carrier and non-carrier samples.
 <br>
