@@ -19,7 +19,6 @@ Application to somatic or mosaic variants, including cancer-associated mutations
 
 <br>
 <br>
-<br>
 
 ## Dependency
 ### Environment
@@ -112,6 +111,23 @@ GTEX-1117F      SRR8176158      Muscle.Muscle-Skeletal  /home/yano_y/GTEx_SJ.out
 wget ftp://hgdownload.cse.ucsc.edu/goldenPath/hg19/liftOver/hg19ToHg38.over.chain.gz
 ```
 Make sure to unzip the downloaded chain file.
+
+<br>
+<br>
+
+## Computational requirements and runtime
+
+The following benchmark was performed using the GTEx v7-scale dataset analyzed in our study, including 9,749 RNA-seq samples and 11,539 SSCV candidates. VEP annotation is not included here because it is a general variant-annotation preprocessing step rather than a CrosSplice-specific step.
+
+| Step | Script / process | Resources used | Wall time |
+|---|---|---:|---:|
+| Filtering | `vep_filter_spliceai_gnomad.py` | 1 slot, 0.1 GB memory | ~25 min |
+| Define primary novel SJ and hijacked SJ | `run_define.sh` / `define_sj.py` | low memory | seconds to a few min |
+| Validation | `2_validation/run.sh` | 2 slots, 130 GB per slot, 260 GB total | ~4 h 15 min |
+| P-value calculation / plotting | `3_plot/plot_figure.sh` | 1 slot, 200 GB memory | ~6 h |
+
+In this environment, the CrosSplice-specific steps after VEP annotation completed within approximately 11 hours for a GTEx-scale analysis. Runtime and memory usage will vary depending on the number of samples, tissues, candidate variants, and local file system performance.
+
 
 <br>
 <br>
