@@ -23,9 +23,7 @@ One of the key features of CrosSplice is the ability to aggregate RNA-seq eviden
 In our study (https://www.medrxiv.org/content/10.64898/2025.12.21.25342246v1), we used the GTEx dataset, which includes postmortem multi-tissue transcriptomes, to maximize the benefit of this cross-tissue design. However, CrosSplice does not require postmortem tissue or a large multi-tissue panel, and can be applied to available paired DNA and RNA-seq data from clinically accessible tissues such as blood or skin. When only one or two tissues are available, sensitivity is expected to depend on whether the candidate gene is expressed and whether the variant-associated junction is captured in the sampled tissue; when possible, tissue choice should be guided by candidate-gene expression, disease biology, and sample availability.
 <br>
 <br>
-
 Application to somatic or mosaic variants, including cancer-associated mutations, may require additional preprocessing such as somatic variant calling, consideration of variant allele fraction, tumor purity, clonality, and tissue composition. These settings have not yet been systematically benchmarked in the current implementation.
-
 <br>
 <br>
 
