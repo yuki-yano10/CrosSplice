@@ -277,6 +277,31 @@ bash 2_validation/run.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MOD
 <br>
 <br>
 
+### Validation output
+
+The validation step outputs a sample-level tab-delimited file. Each row represents one SSCV candidate in one RNA-seq sample/tissue. The output includes variant information, the CrosSplice-defined primary novel SJ and hijacked SJ, gene name, SpliceAI score, MANE transcript status, sample and tissue identifiers, the path to the corresponding STAR SJ.out.tab file, and read counts supporting the primary novel SJ and hijacked SJ.
+
+Main columns include:
+
+| Column | Description |
+|---|---|
+| `Chr`, `Position`, `Ref`, `Alt` | Genomic coordinate and alleles of the candidate SSCV |
+| `Primary_SJ` | CrosSplice-defined primary novel splice junction predicted to be created by the variant |
+| `Hijacked_SJ` | Canonical splice junction expected to be displaced by the primary novel SJ |
+| `Gene` | Gene symbol |
+| `SpliceAI_score` | SpliceAI delta score used for candidate prioritization |
+| `MANE` | MANE transcript category |
+| `Repository_sample_id`, `Run`, `Tissue` | RNA-seq sample and tissue identifiers |
+| `SJ_out_tab_path` | Path to the STAR SJ.out.tab file used for read counting |
+| `Primary_read_count` | Number of reads supporting the primary novel SJ |
+| `Hijacked_read_count` | Number of reads supporting the hijacked SJ |
+| `Depth` | Sum of primary novel SJ and hijacked SJ read counts |
+| `Rate` | `Primary_read_count / (Hijacked_read_count + 1)` |
+| `Ratio` | `Primary_read_count / (Depth + 1)`, corresponding to the CrosSplice alternative ratio |
+
+<br>
+<br>
+
 ## Calculate p-values and Plot     
 
 Calculate p-values to measure the difference in the alternative ratio between samples with and without the variant using a one-sided Wilcoxon rank-sum test.  
