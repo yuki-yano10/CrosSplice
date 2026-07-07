@@ -282,6 +282,7 @@ bash 2_validation/run.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MOD
 The validation step outputs a sample-level tab-delimited file. Each row represents one SSCV candidate in one RNA-seq sample/tissue. The output includes variant information, the CrosSplice-defined primary novel SJ and hijacked SJ, gene name, SpliceAI score, MANE transcript status, sample and tissue identifiers, the path to the corresponding STAR SJ.out.tab file, and read counts supporting the primary novel SJ and hijacked SJ.
 
 Main columns include:
+<br>
 
 | Column | Description |
 |---|---|
