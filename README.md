@@ -118,6 +118,7 @@ Make sure to unzip the downloaded chain file.
 ## Computational requirements and runtime
 
 The following benchmark was performed using the GTEx v7-scale dataset analyzed in our study, including 9,749 RNA-seq samples and 11,539 SSCV candidates. VEP annotation is not included here because it is a general variant-annotation preprocessing step rather than a CrosSplice-specific step.
+<br>
 
 | Step | Script / process | Resources used | Wall time |
 |---|---|---:|---:|
@@ -125,6 +126,7 @@ The following benchmark was performed using the GTEx v7-scale dataset analyzed i
 | Define primary novel SJ and hijacked SJ | `run_define.sh` / `define_sj.py` | low memory | seconds to a few min |
 | Validation | `2_validation/run.sh` | 2 slots, 130 GB per slot, 260 GB total | ~4 h 15 min |
 | P-value calculation / plotting | `3_plot/plot_figure.sh` | 1 slot, 200 GB memory | ~6 h |
+<br>
 
 In this environment, the CrosSplice-specific steps after VEP annotation completed within approximately 11 hours for a GTEx-scale analysis. Runtime and memory usage will vary depending on the number of samples, tissues, candidate variants, and local file system performance.
 
