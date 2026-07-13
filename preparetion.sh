@@ -15,7 +15,7 @@
 set -euo pipefail
 
 DB_DIR="${1:-$PWD/database}"
-REPO_DIR="/home/yano_y/GTEX_validation_project/CrosSplice_snakemake" 
+REPO_DIR="/path/to/repository"
 
 
 # run this from the CrosSplice repository root

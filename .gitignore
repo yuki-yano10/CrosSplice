@@ -1,0 +1,9 @@
+.snakemake/
+log/
+logs/
+*.pyc
+**/__pycache__/
+output/
+prepared/
+post_filter/
+test/data/
