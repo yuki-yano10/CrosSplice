@@ -7,6 +7,7 @@ WDIR=$2
 INPUT_VCF37=$3
 CHAIN=$4
 CHR_PRE="${5:?set TRUE if input has `chr` prefix, False otherwise}"
+LIFTOVER="${6:-liftOver}"
 
 VCF_STEM=$(basename "$INPUT_VCF37" .vcf.gz)
 VCF_DIR=$WDIR/vcf
@@ -42,7 +43,7 @@ for i in ${CHR_LIST}; do
     bcftools view -r ${REGION} -O z -o ${CHR_VCF37_PRE} ${INPUT_VCF37} 
     
     # liftOver
-    python3 1_prep/lift37to38_for_vep.py -vcf ${CHR_VCF37_PRE} -output ${CHR_VCF38_POST} -chain ${CHAIN} -target chr${CHR_NUM} -prefix ${CHR_PRE}
+    python3 1_prep/lift37to38_for_vep.py -vcf ${CHR_VCF37_PRE} -output ${CHR_VCF38_POST} -chain ${CHAIN} -target chr${CHR_NUM} -prefix ${CHR_PRE} -liftover ${LIFTOVER}
 
     # tidy the data
     python3 1_prep/tidy_chr.py -input_file ${CHR_VCF38_POST} -output_file ${CHR_VCF38_UNSORT} -target chr${CHR_NUM}

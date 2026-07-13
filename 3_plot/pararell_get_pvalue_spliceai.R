@@ -6,6 +6,10 @@ library(doParallel)
 args <- commandArgs(trailingOnly = TRUE)
 input_file <- args[1]
 output_dir <- args[2]
+# do_plot: "TRUE" also writes a per-variant PDF (Alternative ratio by tissue,
+# carrier vs non-carrier). Any other value skips plotting. Defaults to FALSE, as
+# the combined p-value (the main output) does not require the figures.
+do_plot <- if (length(args) >= 3) args[3] else "FALSE"
 
 # Set the graph theme for plotting.
 my_theme <- function() {
@@ -44,8 +48,8 @@ mutkey_plot <- function(mutkey, plot_file) {
 		my_theme() +
 		theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
 		      axis.text = element_text(size = 8)) + 
-                scale_colour_manual(values = c("TRUE" = "#ff7f00", "FALSE" = "#999999")) + 
-		scale_alpha_manual(values = c("TRUE" = 1, "FALSE" = 0.25)) + 
+                scale_colour_manual(values = c("True" = "#ff7f00", "False" = "#999999")) +
+		scale_alpha_manual(values = c("True" = 1, "False" = 0.25)) +
 		guides(color = FALSE, alpha = FALSE)
 
       ggsave(plot_file, width = 14, height = 10, units = "cm")
@@ -99,8 +103,10 @@ foreach(mutkey = mutkey_list, .packages = c("tidyverse")) %dopar% {
 	table_file <- paste0(output_dir, "/tsv/gtex_validation_", s2, "_pvalue.tsv")
 	get_pvalue_table(mutkey, table_file)
 
-	plot_file <- paste0(output_dir, "/figure/gtex_validation_", s2, "_MutPosTissue.pdf")
-	mutkey_plot(mutkey, plot_file)
+	if (do_plot == "TRUE") {
+		plot_file <- paste0(output_dir, "/figure/gtex_validation_", s2, "_MutPosTissue.pdf")
+		mutkey_plot(mutkey, plot_file)
+	}
 }
 
 				      

@@ -1,0 +1,101 @@
+Config file config.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-07-09 13:35:53
+  Workflow ID: aa412c8c-5239-4f0d-8047-22ac49970dbe
+  Platform: Linux-5.14.0-570.55.1.el9_6.x86_64-x86_64-with-glibc2.28
+  Host: hww03
+  User: yano_y
+  Snakemake version: 9.23.1
+  Python version: 3.12.0 (main, Apr  4 2024, 11:38:01) [GCC 13.2.0]
+  Command: /home/yano_y/.local/bin/snakemake --configfile test/config.test.yaml -c1 validation
+  Snakefile: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/Snakefile
+  Base directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Run directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Working directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Config file(s): [PosixPath('/hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/test/config.test.yaml'), 'config.yaml']
+  Config MD5: dfec0dfdcbab51ce3a0618e96e83d345
+
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                 count
+----------------  -------
+split_input             1
+sj_count                1
+merge_validation        1
+validation              1
+total                   4
+
+Select jobs to execute...
+Execute 1 jobs...
+[Thu Jul  9 13:35:53 2026]
+localcheckpoint split_input:
+    input: test/data/output/cross_input.merge.txt
+    output: test/data/output/split
+    log: log/split_input.log
+    jobid: 3
+    reason: Missing output files: test/data/output/split
+    resources: tmpdir=/tmp, mem_gb=4
+DAG of jobs will be updated after completion.
+[Thu Jul  9 13:36:28 2026]
+Finished jobid: 3 (Rule: split_input)
+1 of 4 steps (25%) done
+Updating checkpoint dependencies.
+Select jobs to execute...
+Execute 1 jobs...
+[Thu Jul  9 13:36:28 2026]
+localrule mutkey_one:
+    input: test/data/output/split/0
+    output: test/data/output/flags/mutkey.0.done
+    log: log/mutkey/0.log
+    jobid: 10
+    reason: Missing output files: test/data/output/flags/mutkey.0.done
+    wildcards: i=0
+    resources: tmpdir=/tmp, mem_gb=32
+Touching output file test/data/output/flags/mutkey.0.done.
+[Thu Jul  9 13:36:36 2026]
+Finished jobid: 10 (Rule: mutkey_one)
+2 of 5 steps (40%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Thu Jul  9 13:36:36 2026]
+localrule sj_count:
+    input: test/data/output/flags/mutkey.0.done
+    output: test/data/output/sj_count
+    log: log/sj_count.log
+    jobid: 2
+    reason: Missing output files: test/data/output/sj_count; Input files updated by another job: test/data/output/flags/mutkey.0.done
+    resources: tmpdir=/tmp, mem_gb=32
+[Thu Jul  9 13:37:05 2026]
+Finished jobid: 2 (Rule: sj_count)
+3 of 5 steps (60%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Thu Jul  9 13:37:05 2026]
+localrule merge_validation:
+    input: test/data/output/sj_count
+    output: test/data/output/cross.validation.txt
+    log: log/merge_validation.log
+    jobid: 1
+    reason: Missing output files: test/data/output/cross.validation.txt; Input files updated by another job: test/data/output/sj_count
+    resources: tmpdir=/tmp, mem_gb=4
+[Thu Jul  9 13:37:07 2026]
+Finished jobid: 1 (Rule: merge_validation)
+4 of 5 steps (80%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Thu Jul  9 13:37:07 2026]
+localrule validation:
+    input: test/data/output/cross.validation.txt
+    jobid: 0
+    reason: Input files updated by another job: test/data/output/cross.validation.txt
+    resources: tmpdir=/tmp
+[Thu Jul  9 13:37:07 2026]
+Finished jobid: 0 (Rule: validation)
+5 of 5 steps (100%) done
+Complete log(s): /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/.snakemake/log/2026-07-09T133552.965797.snakemake.log

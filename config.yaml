@@ -1,0 +1,88 @@
+# =============================================================================
+# CrosSplice Snakemake — user configuration
+# Run Snakemake from the repository root. Use ABSOLUTE paths for data/databases
+# (the working directory may differ on cluster nodes).
+# =============================================================================
+
+# --- Project -----------------------------------------------------------------
+# wdir: working directory where the output of all stages is written.
+wdir: "/path/to/my/project"
+
+# --- Input -------------------------------------------------------------------
+# input_vcf: VCF to preprocess. GRCh38 when mode=direct, GRCh37 when mode=lift.
+input_vcf: "/path/to/vcf/input.vcf.gz"
+# chr_pre: whether chromosome names in the input VCF carry a "chr" prefix.
+chr_pre: "True"
+# Chromosomes to process.
+chromosomes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, X, Y]
+
+# --- Mode / liftover ---------------------------------------------------------
+# mode: "direct" (input is GRCh38) or "lift" (input is GRCh37; lifted to GRCh38
+# for analysis and lifted back to GRCh37 to query the original genotype VCF).
+mode: "direct"
+# Liftover chains (used only when mode=lift).
+chain_37to38: "/path/to/hg19ToHg38.over.chain"   # stage 1 preprocessing (37 -> 38)
+chain_38to37: "/path/to/hg38ToHg19.over.chain"   # validation, to query original VCF (38 -> 37)
+
+# liftover_bin: path to the UCSC liftOver executable (used only when mode=lift).
+# Leave as "liftOver" if it is already on PATH.
+liftover_bin: "liftOver"
+
+# genotype_vcf: original (pre-split) VCF used to determine carrier status during
+# validation. Leave empty to reuse input_vcf. With mode=lift this is the GRCh37 VCF.
+genotype_vcf: ""
+
+# --- Databases (VEP / SpliceAI / gnomAD) -------------------------------------
+bind_dir: "/path/to/database,/path/to/my/project"
+vep_image: "/path/to/ensembl-vep-20220216.simg"
+vep_cache: "/path/to/database/vep_105/vep_data"
+reference: "/path/to/database/Homo_sapiens_assembly38.fasta"
+gnomad: "/path/to/database/gnomad.genomes.v3.1.2.sites.merged.light.vcf.bgz"
+spliceai_snv: "/path/to/database/spliceai_scores.raw.snv.hg38.vcf.gz"
+spliceai_indel: "/path/to/database/spliceai_scores.raw.indel.hg38.vcf.gz"
+
+# --- Annotation references ---------------------------------------------------
+# These are the CONVERTED files, not the raw downloads. preparetion.sh produces
+# both; to prepare them by hand see the scripts referenced below.
+
+# gencode: bgzipped, tabix-indexed BED produced from the UCSC GENCODE table by
+# 1_prep/convert_gencode_to_bed.sh. A tabix index (.tbi) must sit next to it.
+gencode: "/path/to/wgEncodeGencodeBasicV39.bed.gz"
+
+# mane: JSON produced from the MANE GFF (MANE.*.ensembl_genomic.gff.gz) by
+# 1_prep/convert_mane_gff_to_json.py — NOT the raw .gff.gz.
+mane: "/path/to/MANE.GRCh38.v1.0.ensembl_genomic.json"
+
+
+# --- Validation --------------------------------------------------------------
+# sjouttab_list: table of sample x tissue x SJ.out.tab
+# (columns: Repository_sample_id / Run / Tissue / Path).
+sjouttab_list: "/path/to/sjouttab_list.txt"
+# split_size: number of rows per chunk when splitting cross_input.merge.txt
+# (controls the granularity of the per-split validation jobs).
+split_size: 1000
+
+# --- Output (optional; defaults to wdir/figure_directory) --------------------
+# plot_dir: "/path/to/my/project/figure_directory"
+
+# make_plots: also write a per-variant PDF (Alternative ratio by tissue, carrier
+# vs non-carrier) under plot_dir/figure. The combined p-value (the main output)
+# does not require these figures, so this is off by default. Turn it on to
+# inspect individual candidates; note it produces one PDF per candidate variant,
+# which can be many files on a large run.
+make_plots: false
+
+# =============================================================================
+# Per-rule resources. These are passed to the cluster as threads (= def_slot)
+# and mem_gb (= memory per slot, s_vmem/mem_req). Initial values follow the
+# benchmark in the README; tune them for your own data.
+# =============================================================================
+resources:
+  proc_vcf:   { threads: 1, mem_gb: 4 }
+  vep:        { threads: 2, mem_gb: 8 }
+  filter:     { threads: 1, mem_gb: 4 }
+  define_sj:  { threads: 1, mem_gb: 8 }
+  mutkey:     { threads: 1, mem_gb: 32 }   # per split (1000 variants)
+  sj_count:   { threads: 4, mem_gb: 32 }   # internal ProcessPoolExecutor (threads)
+  pvalue:     { threads: 4, mem_gb: 60 }   # R doParallel (NSLOTS=threads); heavy
+  gather:     { threads: 1, mem_gb: 4 }

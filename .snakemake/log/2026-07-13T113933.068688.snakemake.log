@@ -1,0 +1,72 @@
+Config file config.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-07-13 11:39:33
+  Workflow ID: 7e3ca7a7-fad7-42ac-a2cb-51f2f1061117
+  Platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+  Host: pcl01
+  User: yano_y
+  Snakemake version: 9.23.1
+  Python version: 3.12.0 (main, Apr  4 2024, 11:38:01) [GCC 13.2.0]
+  Command: /home/yano_y/.local/bin/snakemake all -c 8 --configfile config.yaml
+  Snakefile: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/Snakefile
+  Base directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Run directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Working directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Config file(s): [PosixPath('/hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/config.yaml'), 'config.yaml']
+  Config MD5: 74500eb18dab134a76c43ec87f6dfe6a
+
+Building DAG of jobs...
+Updating checkpoint dependencies.
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job       count
+------  -------
+pvalue        1
+gather        1
+all           1
+total         3
+
+Select jobs to execute...
+Execute 1 jobs...
+[Mon Jul 13 11:39:57 2026]
+localrule pvalue:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+    output: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/tsv
+    log: log/pvalue.log
+    jobid: 2
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/tsv
+    threads: 4
+    resources: tmpdir=/tmp/124172015.1.lmem.q, mem_gb=60
+[Mon Jul 13 11:48:36 2026]
+Finished jobid: 2 (Rule: pvalue)
+1 of 3 steps (33%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Mon Jul 13 11:48:36 2026]
+localrule gather:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/tsv
+    output: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/combined/crossplice_validation_combined_p.tsv
+    log: log/gather.log
+    jobid: 1
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/combined/crossplice_validation_combined_p.tsv; Input files updated by another job: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/tsv
+    resources: tmpdir=/tmp/124172015.1.lmem.q, mem_gb=4
+[Mon Jul 13 11:48:37 2026]
+Finished jobid: 1 (Rule: gather)
+2 of 3 steps (67%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Mon Jul 13 11:48:37 2026]
+localrule all:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/combined/crossplice_validation_combined_p.tsv
+    jobid: 0
+    reason: Input files updated by another job: /home/yano_y/GTEX_validation_project/test_snake22/figure_directory/combined/crossplice_validation_combined_p.tsv
+    resources: tmpdir=/tmp/124172015.1.lmem.q
+[Mon Jul 13 11:48:37 2026]
+Finished jobid: 0 (Rule: all)
+3 of 3 steps (100%) done
+Complete log(s): /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/.snakemake/log/2026-07-13T113933.068688.snakemake.log

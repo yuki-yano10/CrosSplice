@@ -27,7 +27,7 @@ def check_chr(vcf_file):
     return vcf_has_chr
 
 
-def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
+def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list, liftover="liftOver"):
     vcf_has_chr = check_chr(vcf_file)
     sjouttab_dict = {}
     with open(sjouttab_list, 'r') as hin:
@@ -61,7 +61,7 @@ def mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list):
             with open(output_prefix + ".q.bed", 'w') as bout:
                bout.write("%s\t%d\t%d\n" % (mut_key_chr, mut_key_position, mut_key_position + 1))
             
-            liftover_commands = ["/path/to/liftOver", output_prefix+".q.bed", chain, output_prefix+".lift.bed", output_prefix+".unmap.bed"]
+            liftover_commands = [liftover, output_prefix+".q.bed", chain, output_prefix+".lift.bed", output_prefix+".unmap.bed"]
             subprocess.call(liftover_commands)
             
             liftover_success = False
@@ -142,5 +142,6 @@ if __name__ == "__main__":
     chain = sys.argv[3]
     vcf_file = sys.argv[4]
     sjouttab_list = sys.argv[5]
+    liftover = sys.argv[6] if len(sys.argv) > 6 else "liftOver"
 
-    mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list)
+    mutkey_lift(input_file, output_dir, chain, vcf_file, sjouttab_list, liftover)

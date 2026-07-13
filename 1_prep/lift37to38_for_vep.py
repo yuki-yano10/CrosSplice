@@ -7,7 +7,7 @@ import subprocess
 import os
 
 
-def lift37to38_for_vep(vcf, output, chain, target, prefix):
+def lift37to38_for_vep(vcf, output, chain, target, prefix, liftover):
 
     import gzip
     
@@ -38,7 +38,7 @@ def lift37to38_for_vep(vcf, output, chain, target, prefix):
             with open(output+".q.bed", 'w') as bout:
                 bout.write(mut_position + "\n")
             
-            liftover_commands = ["/path/to/liftOver", output+".q.bed", chain, output+".lift.bed", output+".unmap.bed"]
+            liftover_commands = [liftover, output+".q.bed", chain, output+".lift.bed", output+".unmap.bed"]
             subprocess.call(liftover_commands)
         
             new_pos = "-"
@@ -70,6 +70,7 @@ if __name__ == "__main__":
     parser.add_argument("-chain", action="store", dest="chain", help="chain file", required=True)
     parser.add_argument("-target", action="store", dest="target", help="target", required=True)
     parser.add_argument("-prefix", action="store", dest="prefix", type=lambda x:str(x).lower() in ["true", "t", "1"], required = True, help="set True if input vcf has `chr` prefix, otherwise False")
+    parser.add_argument("-liftover", action="store", dest="liftover", default="liftOver", help="path to the UCSC liftOver executable (default: liftOver on PATH)")
     o = parser.parse_args()
 
-    lift37to38_for_vep(o.vcf, o.output, o.chain, o.target, o.prefix)
+    lift37to38_for_vep(o.vcf, o.output, o.chain, o.target, o.prefix, o.liftover)

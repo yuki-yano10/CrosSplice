@@ -1,0 +1,26 @@
+# CrosSplice — configuration for the bundled test dataset (see test/README.md).
+# Run from the repository root after: tar xzf test/data.tar.gz -C test/
+# Only the validation + p-value stages run; VEP/SpliceAI/gnomAD preprocessing is
+# skipped because cross_input.merge.txt is provided. The database paths below are
+# unused placeholders (kept only so the config is complete).
+wdir: "test/data"
+input_vcf: "test/data/genotype.vcf.gz"
+chr_pre: "True"
+chromosomes: [22]
+mode: "direct"
+chain_37to38: ""
+chain_38to37: ""
+genotype_vcf: "test/data/genotype.vcf.gz"
+sjouttab_list: "test/data/sjouttab_list.txt"
+split_size: 1000
+make_plots: true
+# --- unused placeholders (preprocessing is not run for the test) ---
+bind_dir: "UNUSED"
+vep_image: "UNUSED"
+vep_cache: "UNUSED"
+reference: "UNUSED"
+gnomad: "UNUSED"
+spliceai_snv: "UNUSED"
+spliceai_indel: "UNUSED"
+gencode: "UNUSED"
+mane: "UNUSED"

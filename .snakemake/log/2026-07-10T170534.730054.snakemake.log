@@ -1,0 +1,170 @@
+Config file config.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-07-10 17:05:34
+  Workflow ID: 80e036fd-6748-4646-bd16-a6792fff21e7
+  Platform: Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.28
+  Host: pcl01
+  User: yano_y
+  Snakemake version: 9.23.1
+  Python version: 3.12.0 (main, Apr  4 2024, 11:38:01) [GCC 13.2.0]
+  Command: /home/yano_y/.local/bin/snakemake all -c 8 --configfile config.yaml
+  Snakefile: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/Snakefile
+  Base directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Run directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Working directory: /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake
+  Config file(s): [PosixPath('/hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/config.yaml'), 'config.yaml']
+  Config MD5: 4c00e234c91065064ffba0bedb6a02ae
+
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                 count
+----------------  -------
+proc_vcf                1
+vep_annotate            1
+filter                  1
+define_sj               1
+split_input             1
+sj_count                1
+merge_validation        1
+pvalue                  1
+gather                  1
+all                     1
+total                  10
+
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Jul 10 17:05:41 2026]
+localrule proc_vcf:
+    input: /home/yano_y/GTEX_validation_project/vcf/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.vcf.gz
+    output: /home/yano_y/GTEX_validation_project/test_snake22/prepared/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vcf.gz, /home/yano_y/GTEX_validation_project/test_snake22/prepared/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vcf.gz.tbi
+    log: log/proc_vcf/22.log
+    jobid: 9
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/prepared/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vcf.gz
+    wildcards: chr=22
+    resources: tmpdir=/tmp/124013727.1.lmem.q, mem_gb=4
+[Fri Jul 10 17:05:41 2026]
+Finished jobid: 9 (Rule: proc_vcf)
+1 of 10 steps (10%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Jul 10 17:05:41 2026]
+localrule vep_annotate:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/prepared/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vcf.gz
+    output: /home/yano_y/GTEX_validation_project/test_snake22/post_vep/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vep.vcf.gz, /home/yano_y/GTEX_validation_project/test_snake22/post_vep/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vep.vcf.gz.tbi
+    log: log/vep/22.log
+    jobid: 8
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/post_vep/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vep.vcf.gz; Input files updated by another job: /home/yano_y/GTEX_validation_project/test_snake22/prepared/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vcf.gz
+    wildcards: chr=22
+    threads: 2
+    resources: tmpdir=/tmp/124013727.1.lmem.q, mem_gb=8
+[Fri Jul 10 17:05:44 2026]
+Finished jobid: 8 (Rule: vep_annotate)
+2 of 10 steps (20%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Jul 10 17:05:44 2026]
+localrule filter:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/post_vep/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vep.vcf.gz
+    output: /home/yano_y/GTEX_validation_project/test_snake22/post_filter/input.all.gnomad001.spliceaiG01.filtered.txt
+    log: log/filter.log
+    jobid: 7
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/post_filter/input.all.gnomad001.spliceaiG01.filtered.txt; Input files updated by another job: /home/yano_y/GTEX_validation_project/test_snake22/post_vep/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_652Ind_GATK_HaplotypeCaller.22.22.prepared.vep.vcf.gz
+    resources: tmpdir=/tmp/124013727.1.lmem.q, mem_gb=4
+[Fri Jul 10 17:05:44 2026]
+Finished jobid: 7 (Rule: filter)
+3 of 10 steps (30%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Jul 10 17:05:44 2026]
+localrule define_sj:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/post_filter/input.all.gnomad001.spliceaiG01.filtered.txt
+    output: /home/yano_y/GTEX_validation_project/test_snake22/output/cross_input.merge.txt
+    log: log/define_sj.log
+    jobid: 6
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/output/cross_input.merge.txt; Input files updated by another job: /home/yano_y/GTEX_validation_project/test_snake22/post_filter/input.all.gnomad001.spliceaiG01.filtered.txt
+    resources: tmpdir=/tmp/124013727.1.lmem.q, mem_gb=8
+[Fri Jul 10 17:05:45 2026]
+Finished jobid: 6 (Rule: define_sj)
+4 of 10 steps (40%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Jul 10 17:05:45 2026]
+localcheckpoint split_input:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/output/cross_input.merge.txt
+    output: /home/yano_y/GTEX_validation_project/test_snake22/output/split
+    log: log/split_input.log
+    jobid: 5
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/output/split; Input files updated by another job: /home/yano_y/GTEX_validation_project/test_snake22/output/cross_input.merge.txt
+    resources: tmpdir=/tmp/124013727.1.lmem.q, mem_gb=4
+DAG of jobs will be updated after completion.
+[Fri Jul 10 17:05:45 2026]
+Finished jobid: 5 (Rule: split_input)
+5 of 10 steps (50%) done
+Updating checkpoint dependencies.
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Jul 10 17:05:45 2026]
+localrule sj_count:
+    output: /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count
+    log: log/sj_count.log
+    jobid: 4
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count
+    threads: 4
+    resources: tmpdir=/tmp/124013727.1.lmem.q, mem_gb=32
+[Fri Jul 10 17:05:45 2026]
+Finished jobid: 4 (Rule: sj_count)
+6 of 10 steps (60%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Fri Jul 10 17:05:45 2026]
+localrule merge_validation:
+    input: /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count
+    output: /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+    log: log/merge_validation.log
+    jobid: 3
+    reason: Missing output files: /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt; Input files updated by another job: /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count
+    resources: tmpdir=/tmp/124013727.1.lmem.q, mem_gb=4
+RuleException:
+CalledProcessError in file "/hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/Snakefile", line 277:
+Command 'set -euo pipefail;  
+        head -n 1 $(ls /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count/* | head -n 1) > /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+        cat /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count/* | grep -v '^Chr' >> /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt' returned non-zero exit status 1.
+[Fri Jul 10 17:05:45 2026]
+Error in rule merge_validation:
+    message: None
+    jobid: 3
+    input: /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count
+    output: /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+    log: log/merge_validation.log (check log file(s) for error details)
+    shell:
+        
+        head -n 1 $(ls /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count/* | head -n 1) > /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+        cat /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count/* | grep -v '^Chr' >> /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+        
+        (command exited with non-zero exit code)
+Removing output files of failed job merge_validation since they might be corrupted:
+/home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Fri Jul 10 17:05:45 2026]
+Error in rule merge_validation:
+    message: None
+    jobid: 3
+    input: /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count
+    output: /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+    log: log/merge_validation.log (check log file(s) for error details)
+    shell:
+        
+        head -n 1 $(ls /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count/* | head -n 1) > /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+        cat /home/yano_y/GTEX_validation_project/test_snake22/output/sj_count/* | grep -v '^Chr' >> /home/yano_y/GTEX_validation_project/test_snake22/output/cross.validation.txt
+        
+        (command exited with non-zero exit code)
+Complete log(s): /hshare1/ZETTAI_path_WA_slash_home_KARA/home/yano_y/GTEX_validation_project/CrosSplice_snakemake/.snakemake/log/2026-07-10T170534.730054.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.
