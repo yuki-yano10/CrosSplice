@@ -243,7 +243,7 @@ The validation step outputs a sample-level tab-delimited file. Each row represen
 | `SJ_out_tab_path` | Path to the STAR SJ.out.tab file used for splice-junction counting |
 | `Primary_read_count` | Number of reads supporting the primary novel SJ |
 | `Hijacked_read_count` | Number of reads supporting the hijacked SJ |
-| `Total_junction_read_count` | Total number of reads supporting either the primary novel splice junction or the corresponding hijacked splice junction, calculated as Primary_read_count + Hijacked_read_count |
+| `Total_junction_read_count` | Total number of reads supporting either the primary novel splice junction or the corresponding hijacked splice junction, calculated as `Primary_read_count` + `Hijacked_read_count` |
 | `Alternative_ratio` | CrosSplice alternative ratio, calculated as `Primary_read_count` / (`Total_junction_read_count` + 1) |
 
 
@@ -252,7 +252,20 @@ The validation step outputs a sample-level tab-delimited file. Each row represen
 
 ## Final output after p-value calculation
 
-After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests comparing the alternative ratios between carriers and non-carriers in each tissue and combines the resulting P values across tissues using Fisher’s method. The final variant-level output is written to
+After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests comparing the alternative ratios between carriers and non-carriers in each tissue and combines the resulting P values across tissues using Fisher’s method. The final variant-level output is written to `figure_directory/combined/crossplice_validation_combined_p.tsv`. Each row represents one candidate variant.
+
+<br>
+
+| Column | Description |
+|---|---|
+| `Key` | Variant identifier comprising the chromosome, genomic position, reference allele, alternate allele, and gene symbol (e.g, chr22_17903578_G_C_MICAL3) |
+| `Tissue` | `Combined`, indicating that tissue-specific P values were combined across tissues | 
+| `CrosSplice_score` | CrosSplice score, defined as −log10 of the P value obtained by combining tissue-specific P values using Fisher’s method |
+| `SpliceAI_score` | Maximum of the SpliceAI donor-gain (DS_DG) and acceptor-gain (DS_AG) delta scores for the candidate variant |
+
+
+<br>
+
 
 ## Computational requirements and runtime
 
