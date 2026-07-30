@@ -250,7 +250,7 @@ The validation step outputs a sample-level tab-delimited file. Each row represen
 <br>
 
 
-## Final output after p-value calculation
+## Final output after tissue-specific P-value calculation and combination across tissues
 
 After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests comparing the alternative ratios between carriers and non-carriers in each tissue and combines the resulting P values across tissues using Fisher’s method. The final variant-level output is written to `figure_directory/combined/crossplice_validation_combined_p.tsv`. Each row represents one candidate variant.
 
