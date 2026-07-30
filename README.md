@@ -183,26 +183,22 @@ root; `WDIR` is the working directory set as `wdir` in `config.yaml`.
 # GRCh37 input (liftover to GRCh38):
 1_prep/proc_vcf_liftover.sh "1 2 ... X Y" ${WDIR} ${INPUT_VCF37} ${CHAIN_37to38} ${CHR_PRE}
 ```
-<br>
 
 ### 2. VEP annotation (SpliceAI + gnomAD)
 ```bash
 1_prep/singularity_vep_annot_germline.sh "${BIND_DIR}" "${VEP_IMAGE}" "${WDIR}" \
     "${DIR_CACHE}" "${REF}" "${GNOMAD}" "${SPLICEAI_SNV}" "${SPLICEAI_INDEL}"
 ```
-<br>
 
 ### 3. Filter (SpliceAI DS_AG or DS_DG >= 0.1, gnomAD AF <= 0.01)
 ```bash
 python3 1_prep/vep_filter_spliceai_gnomad.py ${WDIR}
 ```
-<br>
 
 ### 4. Define hijacked / primary novel SJ -> input file
 ```bash
 1_prep/run_define.sh ${WDIR} ${GENCODE} ${MANE}
 ```
-<br>
 
 ### 5. Validation (count SJ.out.tab reads -> alternative ratio)
 ```bash
@@ -211,7 +207,6 @@ bash 2_validation/run.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MOD
 ```
 For each variant, `depth = #hijacked_SJ + #primary_novel_SJ` and the
 **alternative ratio** = `#primary_novel_SJ / (depth + 1)`.
-<br>
 
 ### 6. Calculate p-values (and, optionally, plot)
 ```bash
