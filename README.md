@@ -202,8 +202,8 @@ python3 1_prep/vep_filter_spliceai_gnomad.py ${WDIR}
 ```bash
 1_prep/run_define.sh ${WDIR} ${GENCODE} ${MANE}
 ```
-<br>
 
+<br>
 ### 5. Validation (count SJ.out.tab reads -> alternative ratio)
 ```bash
 # MODE=direct (GRCh38) or MODE=lift (GRCh37; CHAIN = hg38ToHg19)
@@ -211,8 +211,8 @@ bash 2_validation/run.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MOD
 ```
 For each variant, `depth = #hijacked_SJ + #primary_novel_SJ` and the
 **alternative ratio** = `#primary_novel_SJ / (depth + 1)`.
-<br>
 
+<br>
 ### 6. Calculate p-values (and, optionally, plot)
 ```bash
 # The third argument is optional: TRUE also writes a per-variant PDF under
