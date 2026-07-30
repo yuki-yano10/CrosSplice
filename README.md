@@ -116,7 +116,6 @@ the per-rule `resources` in `config.yaml` to your site. Snakemake resumes
 automatically; after an interruption add `--rerun-incomplete`.
 
 <br>
-<br>
 
 ### Try it on the bundled test dataset
 
