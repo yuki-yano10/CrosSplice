@@ -213,6 +213,8 @@ Fisher's method into a single combined p-value.
 
 The validation step outputs a sample-level tab-delimited file. Each row represents one candidate variant in one RNA-seq sample. Genomic coordinates are reported according to the GRCh38 reference genome.
 
+<br>
+
 | Column | Description |
 |---|---|
 | `Chr` | Chromosome containing the candidate variant |
@@ -233,11 +235,13 @@ The validation step outputs a sample-level tab-delimited file. Each row represen
 | `Total_junction_read_count` | Total number of reads supporting either the primary novel splice junction or the corresponding hijacked splice junction, calculated as Primary_read_count + Hijacked_read_count |
 | `Alternative_ratio` | CrosSplice alternative ratio, calculated as `Primary_read_count` / (`Total_junction_read_count` + 1) |
 
-The final output is `figure_directory/combined/crossplice_validation_combined_p.tsv`
-(columns: `Key`, `Tissue`, `PV`, `SpliceAI_score`), where `PV` is the `-log10`
-combined p-value.
 
 <br>
+
+
+## Final output after p-value calculation
+
+After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests comparing the alternative ratios between carriers and non-carriers in each tissue and combines the resulting P values across tissues using Fisher’s method. The final variant-level output is written to
 
 ## Computational requirements and runtime
 
