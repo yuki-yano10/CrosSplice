@@ -211,23 +211,27 @@ Fisher's method into a single combined p-value.
 
 ## Validation output
 
-The validation step outputs a sample-level tab-delimited file. Each row represents one SSCV candidate in one RNA-seq sample/tissue.
+The validation step outputs a sample-level tab-delimited file. Each row represents one candidate variant in one RNA-seq sample. Genomic coordinates are reported according to the GRCh38 reference genome.
 
 | Column | Description |
 |---|---|
-| `Chr`, `Position`, `Ref`, `Alt` | Genomic coordinate and alleles of the candidate SSCV |
-| `Primary_SJ` | CrosSplice-defined primary novel splice junction predicted to be created by the variant |
-| `Hijacked_SJ` | Canonical splice junction expected to be displaced by the primary novel SJ |
-| `Gene` | Gene symbol |
-| `SpliceAI_score` | SpliceAI delta score used for candidate prioritization |
-| `MANE` | MANE transcript category |
-| `Repository_sample_id`, `Run`, `Tissue` | RNA-seq sample and tissue identifiers |
-| `SJ_out_tab_path` | Path to the STAR SJ.out.tab file used for read counting |
+| `Chr` | Chromosome containing the candidate variant |
+| `Position` | Genomic position of the candidate variant | 
+| `Ref` | Reference allele at the candidate variant position |
+| `Alt` | Alternate allele of the candidate variant |
+| `Primary_SJ` | Genomic region spanned by the primary novel SJ |
+| `Hijacked_SJ` | Genomic region spanned by the hijacked SJ |
+| `Gene` | Gene symbol associated with the candidate variant|
+| `SpliceAI_score` | Maximum of the SpliceAI donor-gain (DS_DG) and acceptor-gain (DS_AG) delta score for the candidate variant |
+| `Is_Mutation` | Indicator of whether the individual carries the candidate variant (TRUE, carrier; FALSE, non-carrier) |
+| `Individual_id` | Identifier of the individual from which WGS and RNA-seq data were obtained |
+| `Run` | RNA-seq run identifier |
+| `Tissue` | Tissue from which the RNA-seq sample was obtained |
+| `SJ_out_tab_path` | Path to the STAR SJ.out.tab file used for splice-junction counting |
 | `Primary_read_count` | Number of reads supporting the primary novel SJ |
 | `Hijacked_read_count` | Number of reads supporting the hijacked SJ |
-| `Depth` | Sum of primary novel SJ and hijacked SJ read counts |
-| `Rate` | `Primary_read_count / (Hijacked_read_count + 1)` |
-| `Ratio` | `Primary_read_count / (Depth + 1)`, the CrosSplice alternative ratio |
+| `Total_junction_read_count` | Total number of reads supporting either the primary novel splice junction or the corresponding hijacked splice junction, calculated as Primary_read_count + Hijacked_read_count |
+| `Alternative_ratio` | CrosSplice alternative ratio, calculated as `Primary_read_count` / (`Total_junction_read_count` + 1) |
 
 The final output is `figure_directory/combined/crossplice_validation_combined_p.tsv`
 (columns: `Key`, `Tissue`, `PV`, `SpliceAI_score`), where `PV` is the `-log10`
