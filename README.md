@@ -175,6 +175,7 @@ debugging or to re-run a single stage. All commands are run from the repository
 root; `WDIR` is the working directory set as `wdir` in `config.yaml`.
 
 <br>
+
 ### 1. Preprocess the VCF (per chromosome)
 ```bash
 # GRCh38 input:
