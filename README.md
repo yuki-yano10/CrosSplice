@@ -133,7 +133,6 @@ leave the negative control below the threshold. See `test/README.md` for
 details and a step-by-step (non-Snakemake) alternative.
 
 <br>
-<br>
 
 ### Workflow overview
 ```
@@ -149,7 +148,6 @@ proc_vcf(per-chr) -> vep_annotate(per-chr) ┐
                                         pvalue(R) -> gather -> combined_p.tsv
 ```
 
-<br>
 <br>
 
 ### Directory structure
@@ -169,7 +167,6 @@ proc_vcf(per-chr) -> vep_annotate(per-chr) ┐
 └── test/                  # bundled synthetic test dataset (see test/README.md)
 ```
 
-<br>
 <br>
 
 ## Running individual steps manually (advanced)
