@@ -74,6 +74,8 @@ Two inputs must be prepared **manually** (they require an account or a user choi
   in our study we merged per-chromosome VCFs and removed per-sample genotypes to
   reduce size; index the result with `tabix`.
 
+<br>
+
 ### Input WGS and RNA-seq data
 - Prepare a VCF containing genotypes from WGS (e.g. GATK HaplotypeCaller output).
 - Run STAR alignment on the RNA-seq data to generate `SJ.out.tab` files, and `bgzip` and index them using `tabix`.
@@ -113,6 +115,8 @@ Adjust `profiles/gridengine/config.yaml` (qsub resource flags, job classes) and
 the per-rule `resources` in `config.yaml` to your site. Snakemake resumes
 automatically; after an interruption add `--rerun-incomplete`.
 
+<br>
+
 ### Try it on the bundled test dataset
 
 A tiny, fully synthetic dataset is included to check the installation. It runs
@@ -127,6 +131,8 @@ It should detect the positive variant (PLA2G6, `-log10` combined p ≈ 12.7) and
 leave the negative control below the threshold. See `test/README.md` for
 details and a step-by-step (non-Snakemake) alternative.
 
+<br>
+
 ### Workflow overview
 ```
 proc_vcf(per-chr) -> vep_annotate(per-chr) ┐
@@ -140,6 +146,8 @@ proc_vcf(per-chr) -> vep_annotate(per-chr) ┐
                                                              │
                                         pvalue(R) -> gather -> combined_p.tsv
 ```
+
+<br>
 
 ### Directory structure
 ```
