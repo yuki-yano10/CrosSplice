@@ -60,7 +60,7 @@ mutkey_plot <- function(mutkey, plot_file) {
 # Data loading
 D <- read.delim(input_file, sep="\t", header=TRUE)
 D$Tissue2 <- unlist(lapply(strsplit(D$Tissue, "\\."), function(x) {sub("_", " ", x[2])}))
-D <- D %>% mutate(MutKey2 = paste(Chr, Position, Ref, Alt, sep=",")) %>%mutate(MutKey2 = paste(MutKey2, Gene)) %>%filter(Depth!=0)
+D <- D %>% mutate(MutKey2 = paste(Chr, Position, Ref, Alt, sep=",")) %>%mutate(MutKey2 = paste(MutKey2, Gene)) %>%filter(Total_junction_read_count!=0)
 D <- D %>% mutate(Is_Mutation = as.character(Is_Mutation))
 
 mutkey_list <- D %>% filter(Is_Mutation == "True") %>% select(MutKey2) %>% unique() %>% pull()
