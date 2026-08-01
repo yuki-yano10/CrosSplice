@@ -25,7 +25,7 @@ def sj_screening(input_files, output_file):
                 }
 
                 base_fieldnames = [
-                    field
+                    "Individual_id" if field == "Repository_sample_id" else field
                     for field in csvreader.fieldnames
                     if field not in exclude_output_columns
                 ]
