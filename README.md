@@ -259,7 +259,6 @@ After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests
 | Column | Description |
 |---|---|
 | `Key` | Variant identifier comprising the chromosome, genomic position, reference allele, alternate allele, and gene symbol (e.g, chr22_17903578_G_C_MICAL3) |
-| `Tissue` | `Combined`, indicating that tissue-specific P values were combined across tissues | 
 | `CrosSplice_score` | CrosSplice score, defined as −log10 of the P value obtained by combining tissue-specific P values using Fisher’s method |
 | `SpliceAI_score` | Maximum of the SpliceAI donor-gain (DS_DG) and acceptor-gain (DS_AG) delta scores for the candidate variant |
 
