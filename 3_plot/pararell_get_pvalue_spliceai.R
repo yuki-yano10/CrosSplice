@@ -36,12 +36,12 @@ my_theme <- function() {
 
 
 mutkey_plot <- function(mutkey, plot_file) {
-	D2 <- D %>% filter(MutKey2 == mutkey) %>% filter(Depth != 0)
+	D2 <- D %>% filter(MutKey2 == mutkey) %>% filter(Total_junction_read_count != 0)
         tissue_list <- D2 %>% select(Tissue2) %>% unique() %>% pull()
         D3 <- D2 %>% filter(Tissue2 %in% tissue_list)
         mkey <- str_replace_all(unlist(str_split(mutkey, pattern = ' '))[1], ',', '-')
         mgene <- unlist(str_split(mutkey, pattern = ' '))[2]
-        p <- ggplot(D3 %>% arrange(Is_Mutation), aes(x = Tissue2, y = Primary_read_count / (Depth + 1), color = Is_Mutation, alpha = Is_Mutation)) + 
+        p <- ggplot(D3 %>% arrange(Is_Mutation), aes(x = Tissue2, y = Alternative_ratio, color = Is_Mutation, alpha = Is_Mutation)) + 
 		geom_jitter(width = 0.1,height=0, size = 0.75) +
 		labs(x = "", y = "Alternative ratio", colour = "Is_Mutation", alpha = "Is_Mutation") +
 		ggtitle(bquote(italic(.(mgene))~' '~.(mkey))) +
@@ -74,7 +74,7 @@ registerDoParallel(cl)
 foreach(mutkey = mutkey_list, .packages = c("tidyverse")) %dopar% {
 
 	get_pvalue_table <- function(mutkey, table_file) {
-		D2 <- D %>% filter(MutKey2 == mutkey) %>% filter(Depth !=0)
+		D2 <- D %>% filter(MutKey2 == mutkey) %>% filter(Total_junction_read_count !=0)
 		tissue_list <- D2 %>% filter(Is_Mutation == "True") %>% select(Tissue2) %>% unique() %>% pull()
 		D3 <- D2 %>% filter(Tissue2 %in% tissue_list)
 					        
@@ -82,8 +82,8 @@ foreach(mutkey = mutkey_list, .packages = c("tidyverse")) %dopar% {
 		tDF <- data.frame()
 		for (tissue in tissue_list) {
 			tD3 <- D3 %>% filter(Tissue2 == tissue)
-		        pos_values <- tD3 %>% filter(Is_Mutation == "True") %>% pull(Ratio)
-		        neg_values <- tD3 %>% filter(Is_Mutation == "False") %>% pull(Ratio)
+		        pos_values <- tD3 %>% filter(Is_Mutation == "True") %>% pull(Alternative_ratio)
+		        neg_values <- tD3 %>% filter(Is_Mutation == "False") %>% pull(Alternative_ratio)
 			if (length(pos_values) == 0 || length(neg_values) == 0) break
 			tpvalue <- wilcox.test(pos_values, neg_values, alternative = "greater", correct = TRUE, exact=FALSE)$p.value
 			tDF <- rbind(tDF, data.frame(Tissue = tissue, PV = tpvalue, SpliceAI_score = ai_score))
