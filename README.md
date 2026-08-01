@@ -205,8 +205,7 @@ python3 1_prep/vep_filter_spliceai_gnomad.py ${WDIR}
 # MODE=direct (GRCh38) or MODE=lift (GRCh37; CHAIN = hg38ToHg19)
 bash 2_validation/run.sh ${INPUT} ${OUTPUT_VALIDATION} ${VCF} ${PROCESSES} ${MODE} ${CHAIN} ${SJOUT_TAB}
 ```
-For each variant, `depth = #hijacked_SJ + #primary_novel_SJ` and the
-**alternative ratio** = `#primary_novel_SJ / (depth + 1)`.
+For each variant, the **total junction read count** is defined as `#hijacked_SJ + #primary_novel_SJ`, and the **alternative ratio** is defined as `#primary_novel_SJ / (total junction read count + 1)`.
 
 ### 6. Calculate p-values (and, optionally, plot)
 ```bash
@@ -222,7 +221,7 @@ Fisher's method into a single combined p-value.
 
 ## Validation output
 
-The validation step outputs a sample-level tab-delimited file. Each row represents one candidate variant in one RNA-seq sample. Genomic coordinates are reported according to the GRCh38 reference genome.
+The validation step outputs a tab-delimited file. Each row represents one candidate variant in one RNA-seq sample. Genomic coordinates are reported according to the GRCh38 reference genome.
 
 <br>
 
@@ -235,8 +234,8 @@ The validation step outputs a sample-level tab-delimited file. Each row represen
 | `Primary_SJ` | Genomic region spanned by the primary novel SJ |
 | `Hijacked_SJ` | Genomic region spanned by the hijacked SJ |
 | `Gene` | Gene symbol associated with the candidate variant|
-| `SpliceAI_score` | Maximum of the SpliceAI donor-gain (DS_DG) and acceptor-gain (DS_AG) delta score for the candidate variant |
-| `Is_Mutation` | Indicator of whether the individual carries the candidate variant (TRUE, carrier; FALSE, non-carrier) |
+| `SpliceAI_score` | Maximum of the SpliceAI donor-gain (DS_DG) and acceptor-gain (DS_AG) delta scores for the candidate variant |
+| `Is_Mutation` | Indicator of whether the individual carries the candidate variant (`TRUE`, carrier; `FALSE`, non-carrier; `NA`, undetermined) |
 | `Individual_id` | Identifier of the individual from which WGS and RNA-seq data were obtained |
 | `Run` | RNA-seq run identifier |
 | `Tissue` | Tissue from which the RNA-seq sample was obtained |
@@ -252,7 +251,7 @@ The validation step outputs a sample-level tab-delimited file. Each row represen
 
 ## Final output after tissue-specific P-value calculation and combination across tissues
 
-After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests comparing the alternative ratios between carriers and non-carriers in each tissue and combines the resulting P values across tissues using Fisher’s method. The final variant-level output is written to `figure_directory/combined/crossplice_validation_combined_p.tsv`. Each row represents one candidate variant.
+After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests comparing the alternative ratios between samples with and without the variant in each tissue, and combines the resulting P values across tissues using Fisher’s method. The final variant-level output is written to `figure_directory/combined/crossplice_validation_combined_p.tsv`. Each row represents one candidate variant.
 
 <br>
 
