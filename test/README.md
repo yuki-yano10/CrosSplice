@@ -81,7 +81,7 @@ bash 3_plot/plot_figure.sh \
 The combined p-value table should contain:
 
 ```
-Key                             Tissue    PV      ...
+Key                            Tissue      CrosSplice_score      ...
 chr22_38115172_C_T_PLA2G6       Combined  ~12.70   <- detected (>= 8)
 chr22_38116000_G_A_NEGCTRL      Combined  ~0.23    <- not detected
 ```
