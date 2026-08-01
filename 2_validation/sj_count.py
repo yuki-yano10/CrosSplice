@@ -20,7 +20,7 @@ def sj_screening(input_files, output_file):
                     "MANE",
                     "Chr37",
                     "Chr38",
-                    "Position37"
+                    "Position37",
                     "Position38",
                 }
 
