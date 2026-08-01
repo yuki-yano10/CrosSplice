@@ -15,9 +15,22 @@ def sj_screening(input_files, output_file):
         for input_file in input_files:
             with open(input_file, 'r') as hin:
                 csvreader = csv.DictReader(hin, delimiter='\t')
+
+                exclude_output_columns = {
+                    "MANE",
+                    "Chr37",
+                    "Chr38",
+                    "Position38",
+                }
+
+                base_fiednames = [
+                    field
+                    for field in csvreader.fieldnames
+                    if field not in exclude_output_columns
+                ]
                 if csvwriter is None:
-                    csvwriter = csv.DictWriter(hout, delimiter='\t', lineterminator='\n', fieldnames=csvreader.fieldnames + [
-                        "Primary_read_count", "Hijacked_read_count", "Depth", "Rate", "Ratio"
+                    csvwriter = csv.DictWriter(hout, delimiter='\t', lineterminator='\n', fieldnames=base_fieldnames + [
+                        "Primary_read_count", "Hijacked_read_count", "Total_junction_read_count", "Alternative_ratio"
                     ])
                     csvwriter.writeheader()
                 for csvobj in csvreader:
@@ -73,15 +86,20 @@ def sj_screening(input_files, output_file):
                             if hijacked_pos1 - rj_start == hijacked_pos2 - rj_end:
                                 hijacked_read_count = int(record[6])
                     
-                    depth = hijacked_read_count + primary_read_count
-                    rate = primary_read_count/(hijacked_read_count + 1)
-                    ratio = primary_read_count/(depth + 1)
-                    csvobj["Primary_read_count"] = primary_read_count
-                    csvobj["Hijacked_read_count"] = hijacked_read_count
-                    csvobj["Depth"] = depth
-                    csvobj["Rate"] = rate
-                    csvobj["Ratio"] = ratio
-                    csvwriter.writerow(csvobj)
+                    total_junction_read_count = hijacked_read_count + primary_read_count
+                    alternative_ratio = primary_read_count/(total_junction_read_count + 1)
+
+                    output_obj = {
+                        key : value
+                        for key, value in csvobj.items()
+                        if key not in exclude_output_columns
+                    }
+                    
+                    output_obj["Primary_read_count"] = primary_read_count
+                    output_obj["Hijacked_read_count"] = hijacked_read_count
+                    output_obj["Total_junction_read_count"] = total_junction_read_count
+                    csvobj["Alternative_ratio"] = alternative_ratio
+                    csvwriter.writerow(output_obj)
 
 def call_sj_screening(input_files, output_dir, index):
     ret_code = 1
