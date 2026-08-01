@@ -32,7 +32,7 @@ def gather_combined_p(input_dir, output_file):
                     if csvobj["Tissue"] == "Combined":
                         csvwriter.writerow({
                             "Key" : key,
-                            "CrosSplice_score" : csvobj["PV"]
+                            "CrosSplice_score" : csvobj["PV"],
                             "SpliceAI_score" : csvobj["SpliceAI_score"],
                         })
                         break
