@@ -20,10 +20,11 @@ def sj_screening(input_files, output_file):
                     "MANE",
                     "Chr37",
                     "Chr38",
+                    "Position37"
                     "Position38",
                 }
 
-                base_fiednames = [
+                base_fieldnames = [
                     field
                     for field in csvreader.fieldnames
                     if field not in exclude_output_columns
@@ -98,7 +99,7 @@ def sj_screening(input_files, output_file):
                     output_obj["Primary_read_count"] = primary_read_count
                     output_obj["Hijacked_read_count"] = hijacked_read_count
                     output_obj["Total_junction_read_count"] = total_junction_read_count
-                    csvobj["Alternative_ratio"] = alternative_ratio
+                    output_obj["Alternative_ratio"] = alternative_ratio
                     csvwriter.writerow(output_obj)
 
 def call_sj_screening(input_files, output_dir, index):
