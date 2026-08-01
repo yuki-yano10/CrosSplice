@@ -95,6 +95,7 @@ def sj_screening(input_files, output_file):
                         for key, value in csvobj.items()
                         if key not in exclude_output_columns
                     }
+                    output_obj["Individual_id"] = output_obj.pop("Repository_sample_id")
                     
                     output_obj["Primary_read_count"] = primary_read_count
                     output_obj["Hijacked_read_count"] = hijacked_read_count
