@@ -258,7 +258,7 @@ After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests
 | Column | Description |
 |---|---|
 | `Key` | Variant identifier comprising the chromosome, genomic position, reference allele, alternate allele, and gene symbol (e.g, chr22_17903578_G_C_MICAL3) |
-| `CrosSplice_score` | CrosSplice score, defined as −log10 of the P value obtained by combining tissue-specific P values using Fisher’s method |
+| `CrosSplice_score` | CrosSplice score, defined as −log10 of the p-value obtained by combining tissue-specific P values using Fisher’s method |
 | `SpliceAI_score` | Maximum of the SpliceAI donor-gain (DS_DG) and acceptor-gain (DS_AG) delta scores for the candidate variant |
 
 
@@ -276,7 +276,7 @@ not included here.
 | Filtering | `vep_filter_spliceai_gnomad.py` | 1 slot, 0.1 GB | ~25 min |
 | Define primary novel / hijacked SJ | `run_define.sh` / `define_sj.py` | low memory | seconds to a few min |
 | Validation | `2_validation/run.sh` | 2 slots, 130 GB/slot, 260 GB total | ~4 h 15 min |
-| P-value / plotting | `3_plot/plot_figure.sh` | 1 slot, 200 GB | ~6 h |
+| p-value / plotting | `3_plot/plot_figure.sh` | 1 slot, 200 GB | ~6 h |
 
 The CrosSplice-specific steps after VEP annotation completed in ~11 hours for a
 GTEx-scale analysis. Runtime and memory vary with the number of samples,
