@@ -14,7 +14,7 @@ This repository wraps the pipeline in a **Snakemake** workflow so it can be run 
 
 ## Intended use and assumptions
 
-CrosSplice is primarily designed to detect **germline** or **constitutional SSCVs** from **paired WGS and RNA-seq data**. The pipeline assumes that variant carrier status can be defined from DNA sequencing data and compared with RNA-seq junction read support across carrier and non-carrier samples.
+CrosSplice is primarily designed to detect **germline** or **constitutional SSCVs** from **paired WGS and RNA-seq data**. The pipeline assumes that the presence or absence of the variant can be defined from DNA sequencing data and compared with RNA-seq junction read support between samples with and without the vaiant.
 
 One of the key features of CrosSplice is the ability to aggregate RNA-seq evidence across multiple tissues.
 
@@ -267,8 +267,8 @@ After the validation step, CrosSplice performs one-sided Wilcoxon rank-sum tests
 
 ## Computational requirements and runtime
 
-Benchmark on the GTEx v7-scale dataset in our study (9,749 RNA-seq samples,
-11,539 SSCV candidates). VEP annotation is a general preprocessing step and is
+Benchmark on the GTEx v7-scale dataset in our study (8,656 RNA-seq samples,
+11,538 SSCV candidates). VEP annotation is a general preprocessing step and is
 not included here.
 
 | Step | Script / process | Resources used | Wall time |
