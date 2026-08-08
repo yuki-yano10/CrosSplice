@@ -235,7 +235,7 @@ The validation step outputs a tab-delimited file. Each row represents one candid
 | `Hijacked_SJ` | Genomic region spanned by the hijacked SJ |
 | `Gene` | Gene symbol associated with the candidate variant|
 | `SpliceAI_score` | Maximum of the SpliceAI donor-gain (DS_DG) and acceptor-gain (DS_AG) delta scores for the candidate variant |
-| `Is_Mutation` | Indicator of whether the individual carries the candidate variant (`TRUE`, carrier; `FALSE`, non-carrier; `NA`, undetermined) |
+| `Is_Mutation` | Indicator of whether the individual carries the candidate variant (`TRUE`, the individual has the variant; `FALSE`, the individual does not have the variant; `NA`, undetermined) |
 | `Individual_id` | Identifier of the individual from which WGS and RNA-seq data were obtained |
 | `Run` | RNA-seq run identifier |
 | `Tissue` | Tissue from which the RNA-seq sample was obtained |
