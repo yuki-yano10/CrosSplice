@@ -61,7 +61,7 @@ pip install snakemake snakemake-executor-plugin-cluster-generic
 ### Automatic setup
 Most references can be downloaded and prepared automatically:
 ```bash
-bash preparetion.sh /path/to/database
+bash preparation.sh /path/to/database
 ```
 This fetches the VEP v105 cache, the VEP Singularity image, the GRCh38 reference
 FASTA, MANE (converted to JSON), GENCODE (converted to a tabix-indexed BED) and
