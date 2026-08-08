@@ -156,7 +156,7 @@ proc_vcf(per-chr) -> vep_annotate(per-chr) ┐
 ├── Snakefile              # the workflow (all rules)
 ├── config.yaml            # user configuration (paths, resources)
 ├── run.sh                 # launcher (snakemake + Grid Engine profile)
-├── preparetion.sh         # database / reference setup
+├── preparation.sh         # database / reference setup
 ├── profiles/
 │   └── gridengine/
 │       └── config.yaml    # Grid Engine (SGE/UGE) qsub submission profile
