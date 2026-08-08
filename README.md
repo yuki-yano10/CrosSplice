@@ -14,7 +14,7 @@ This repository wraps the pipeline in a **Snakemake** workflow so it can be run 
 
 ## Intended use and assumptions
 
-CrosSplice is primarily designed to detect **germline** or **constitutional splice-site-creating variants** from **paired WGS and RNA-seq data**. The pipeline assumes that variant carrier status can be defined from DNA sequencing data and compared with RNA-seq junction read support across carrier and non-carrier samples.
+CrosSplice is primarily designed to detect **germline** or **constitutional SSCVs** from **paired WGS and RNA-seq data**. The pipeline assumes that variant carrier status can be defined from DNA sequencing data and compared with RNA-seq junction read support across carrier and non-carrier samples.
 
 One of the key features of CrosSplice is the ability to aggregate RNA-seq evidence across multiple tissues.
 
